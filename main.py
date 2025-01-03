@@ -1,1 +1,3 @@
-from src.mlproject.config import configuration
+from src.mlproject import logger
+
+logger.info("Hello world!")
