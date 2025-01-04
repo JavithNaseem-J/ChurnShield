@@ -1,7 +1,6 @@
-artifacts_roots: artifacts
-
+artifacts_root: artifacts
 data_ingestion:
-  root_dir:artifacts/data_ingestion
-  source_dir: https://github.com/JavithNaseem-J/ML-Project/raw/refs/heads/main/archive.zip
-  load_data: artifacts/data_ingestion/data.csv
+  root_dir: artifacts/data_ingestion
+  source_URL: https://github.com/JavithNaseem-J/ML-Project/raw/refs/heads/main/archive.zip
+  local_data_file: artifacts/data_ingestion/data.zip
   unzip_dir: artifacts/data_ingestion
