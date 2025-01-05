@@ -1,6 +1,7 @@
 from mlproject import logger
 from mlproject.pipeline.stage1_data_ingestion import DataIngestiontrainingPipeline
 from mlproject.pipeline.stage2_data_validation import DataValidationtrainingPipeline
+from mlproject.pipeline.stage3_data_transformation import DataTransformationTrainingPipeline
 
 
 STAGE = "Data Ingestion Stage"
@@ -20,6 +21,19 @@ STAGE = "Data Validation Stage"
 try:
     logger.info(f"Running {STAGE}...")
     pipeline = DataValidationtrainingPipeline()
+    pipeline.main()
+    logger.info(f"{STAGE} completed successfully!")
+
+except Exception as e:
+    logger.error(f"{STAGE} failed! Error: {e}")
+    raise e
+
+
+STAGE = "Data Transformation stage"
+
+try:
+    logger.info(f"Running {STAGE}...")
+    pipeline = DataTransformationTrainingPipeline()
     pipeline.main()
     logger.info(f"{STAGE} completed successfully!")
 
