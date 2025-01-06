@@ -1,9 +1,10 @@
+import pandas as pd
 import os
 from mlproject import logger
-from pandas import pandas as pd
-import joblib
 from sklearn.linear_model import ElasticNet
+import joblib
 from mlproject.entities.config_entity import ModelTrainerConfig
+
 
 
 class ModelTrainer:

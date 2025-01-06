@@ -33,3 +33,5 @@ class ModelEvaluation:
         # Saving metrics as local
         scores = {"rmse": rmse, "mae": mae, "r2": r2}
         save_json(path=Path(self.config.metric_file_path), data=scores)
+
+    
