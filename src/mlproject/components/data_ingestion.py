@@ -3,8 +3,8 @@ import urllib.request as request
 import zipfile
 from mlproject import logger
 from mlproject.utils.common import get_size
-from mlproject.entities.config_entity import DataIngestionConfig
 from pathlib import Path
+from mlproject.entities.config_entity import (DataIngestionConfig)
 
 
 class DataIngestion:
@@ -35,3 +35,4 @@ class DataIngestion:
         os.makedirs(unzip_path, exist_ok=True)
         with zipfile.ZipFile(self.config.local_data_file, 'r') as zip_ref:
             zip_ref.extractall(unzip_path)
+  

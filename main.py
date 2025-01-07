@@ -1,68 +1,73 @@
 from mlproject import logger
-from mlproject.pipeline.stage1_data_ingestion import DataIngestiontrainingPipeline
-from mlproject.pipeline.stage2_data_validation import DataValidationtrainingPipeline
-from mlproject.pipeline.stage3_data_transformation import DataTransformationTrainingPipeline
-from mlproject.pipeline.stage4_modeltraining import ModelTrainingPipeline
-from mlproject.pipeline.stage5_data_evalution import ModelEvaluationPipeline
+from mlproject.pipeline.stage_01_data_ingestion import DataIngestionTrainingPipeline
+from mlproject.pipeline.stage_02_data_validation import DataValidationTrainingPipeline
+from mlproject.pipeline.stage_03_data_transformation import DataTransformationTrainingPipeline
+from mlproject.pipeline.stage_04_model_trainer import ModelTrainerTrainingPipeline
+from mlproject.pipeline.stage_05_model_evaluation import ModelEvaluationTrainingPipeline
 
-STAGE = "Data Ingestion Stage"
 
+STAGE_NAME = "Data Ingestion stage"
 try:
-    logger.info(f"Running {STAGE}...")
-    pipeline = DataIngestiontrainingPipeline()
-    pipeline.main()
-    logger.info(f"{STAGE} completed successfully!")
-
+   logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<") 
+   data_ingestion = DataIngestionTrainingPipeline()
+   data_ingestion.main()
+   logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
 except Exception as e:
-    logger.error(f"{STAGE} failed! Error: {e}")
-    raise e
+        logger.exception(e)
+        raise e
 
-STAGE = "Data Validation Stage"
 
+
+
+STAGE_NAME = "Data Validation stage"
 try:
-    logger.info(f"Running {STAGE}...")
-    pipeline = DataValidationtrainingPipeline()
-    pipeline.main()
-    logger.info(f"{STAGE} completed successfully!")
-
+   logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<") 
+   data_ingestion = DataValidationTrainingPipeline()
+   data_ingestion.main()
+   logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
 except Exception as e:
-    logger.error(f"{STAGE} failed! Error: {e}")
-    raise e
+        logger.exception(e)
+        raise e
 
 
-STAGE = "Data Transformation stage"
 
+STAGE_NAME = "Data Transformation stage"
 try:
-    logger.info(f"Running {STAGE}...")
-    pipeline = DataTransformationTrainingPipeline()
-    pipeline.main()
-    logger.info(f"{STAGE} completed successfully!")
-
+   logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<") 
+   data_ingestion = DataTransformationTrainingPipeline()
+   data_ingestion.main()
+   logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
 except Exception as e:
-    logger.error(f"{STAGE} failed! Error: {e}")
-    raise e
+        logger.exception(e)
+        raise e
 
-STAGE = "Model Training Stage"
 
+
+
+STAGE_NAME = "Model Trainer stage"
 try:
-    logger.info(f"Running {STAGE}...")
-    pipeline = ModelTrainingPipeline()
-    pipeline.main()
-    logger.info(f"{STAGE} completed successfully!")
-
+   logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<") 
+   data_ingestion = ModelTrainerTrainingPipeline()
+   data_ingestion.main()
+   logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
 except Exception as e:
-    logger.error(f"{STAGE} failed! Error: {e}")
-    raise e
+        logger.exception(e)
+        raise e
 
 
-STAGE = "Model Evaluation Stage"
 
+STAGE_NAME = "Model evaluation stage"
 try:
-    logger.info(f"Running {STAGE}...")
-    pipeline = ModelEvaluationPipeline()
-    pipeline.main()
-    logger.info(f"{STAGE} completed successfully!") 
+   logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<") 
+   data_ingestion = ModelEvaluationTrainingPipeline()
+   data_ingestion.main()
+   logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
+except Exception as e:
+        logger.exception(e)
+        raise e
 
-except Exception as e:  
-    logger.error(f"{STAGE} failed! Error: {e}")
-    raise e
+
+
+
+
+

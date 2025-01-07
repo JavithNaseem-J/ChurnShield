@@ -1,8 +1,6 @@
 from mlproject.config.config import ConfigurationManager
 from mlproject.components.data_transformation import DataTransformation
 from mlproject import logger
-from sklearn.model_selection import train_test_split
-from pandas import pandas as pd
 from pathlib import Path
 
 
@@ -33,11 +31,16 @@ class DataTransformationTrainingPipeline:
             print(e)
 
 
+
+
+
 if __name__ == '__main__':
     try:
-        logger.info(f"Running {STAGE_NAME}...")
-        pipeline = DataTransformationTrainingPipeline()
-        pipeline.main()
-        logger.info(f"{STAGE_NAME} completed successfully!")
+        logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<")
+        obj = DataTransformationTrainingPipeline()
+        obj.main()
+        logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
     except Exception as e:
-        logger.error(f"{STAGE_NAME} failed! Error: {e}")
+        logger.exception(e)
+        raise e
+

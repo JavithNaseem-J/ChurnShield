@@ -1,8 +1,9 @@
 import os
-from mlproject import logger
-from pandas import pandas as pd
-from mlproject.entities.config_entity import DataTransformationConfig
+from src.mlproject import logger
 from sklearn.model_selection import train_test_split
+import pandas as pd
+from mlproject.entities.config_entity import DataTransformationConfig
+
 
 
 class DataTransformation:
@@ -28,3 +29,7 @@ class DataTransformation:
         logger.info("Splited data into training and test sets")
         logger.info(train.shape)
         logger.info(test.shape)
+
+        print(train.shape)
+        print(test.shape)
+        

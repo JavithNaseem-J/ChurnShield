@@ -2,25 +2,27 @@ from mlproject.config.config import ConfigurationManager
 from mlproject.components.data_modelevaluation import ModelEvaluation
 from mlproject import logger
 
+STAGE_NAME = "Model evaluation stage"
 
-STAGE_NAME = "Model Evaluation Stage"
-
-
-class ModelEvaluationPipeline:
+class ModelEvaluationTrainingPipeline:
     def __init__(self):
         pass
 
     def main(self):
         config = ConfigurationManager()
         model_evaluation_config = config.get_model_evaluation_config()
-        model_evaluation = ModelEvaluation(config=model_evaluation_config)
-        model_evaluation.save_results()
+        model_evaluation_config = ModelEvaluation(config=model_evaluation_config)
+        model_evaluation_config.log_into_mlflow()
+
+
 
 if __name__ == '__main__':
     try:
-        logger.info(f"Running {STAGE_NAME}...")
-        pipeline = ModelEvaluationPipeline()
-        pipeline.main()
-        logger.info(f"{STAGE_NAME} completed successfully!")
+        logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<")
+        obj = ModelEvaluationTrainingPipeline()
+        obj.main()
+        logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
     except Exception as e:
-        logger.error(f"{STAGE_NAME} failed! Error: {e}")
+        logger.exception(e)
+        raise e
+

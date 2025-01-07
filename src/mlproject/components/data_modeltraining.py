@@ -27,3 +27,4 @@ class ModelTrainer:
         lr.fit(train_x, train_y)
 
         joblib.dump(lr, os.path.join(self.config.root_dir, self.config.model_name))
+

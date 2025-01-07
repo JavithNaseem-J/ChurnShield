@@ -2,9 +2,10 @@ from mlproject.config.config import ConfigurationManager
 from mlproject.components.data_validation import DataValiadtion
 from mlproject import logger
 
-STAGE_NAME = "Data Validation Stage"
 
-class DataValidationtrainingPipeline:
+STAGE_NAME = "Data Validation stage"
+
+class DataValidationTrainingPipeline:
     def __init__(self):
         pass
 
@@ -15,12 +16,16 @@ class DataValidationtrainingPipeline:
         data_validation.validate_all_columns()
 
 
-if __name__ == "__main__":
+
+
+
+if __name__ == '__main__':
     try:
-        logger.info(f"Running {STAGE_NAME}...")
-        pipeline = DataValidationtrainingPipeline()
-        pipeline.main()
-        logger.info(f"{STAGE_NAME} completed successfully!")
+        logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<")
+        obj = DataValidationTrainingPipeline()
+        obj.main()
+        logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
     except Exception as e:
-        logger.error(f"{STAGE_NAME} failed! Error: {e}")
+        logger.exception(e)
         raise e
+

@@ -1,7 +1,7 @@
 import os
 from mlproject import logger
-from pandas import pandas as pd
 from mlproject.entities.config_entity import DataValidationConfig
+import pandas as pd
 
 
 class DataValiadtion:
@@ -33,3 +33,4 @@ class DataValiadtion:
         
         except Exception as e:
             raise e
+

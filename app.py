@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 import os 
 import numpy as np
 import pandas as pd
-from mlproject.pipeline.pipelineprediction import PipelinePrediction
+from mlProject.pipeline.prediction import PredictionPipeline
 
 
 app = Flask(__name__) # initializing a flask app
@@ -39,7 +39,7 @@ def index():
             data = [fixed_acidity,volatile_acidity,citric_acid,residual_sugar,chlorides,free_sulfur_dioxide,total_sulfur_dioxide,density,pH,sulphates,alcohol]
             data = np.array(data).reshape(1, 11)
             
-            obj = PipelinePrediction()
+            obj = PredictionPipeline()
             predict = obj.predict(data)
 
             return render_template('results.html', prediction = str(predict))
@@ -50,6 +50,7 @@ def index():
 
     else:
         return render_template('index.html')
+
 
 if __name__ == "__main__":
 	# app.run(host="0.0.0.0", port = 8080, debug=True)
