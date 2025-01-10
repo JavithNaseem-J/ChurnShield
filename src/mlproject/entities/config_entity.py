@@ -33,10 +33,10 @@ class ModelTrainerConfig:
     train_data_path: Path
     test_data_path: Path
     model_name: str
-    alpha: float
-    l1_ratio: float
+    l2_regularization: int
+    max_depth: int
+    max_iter: int
     target_column: str
-
 
 
 
@@ -46,6 +46,6 @@ class ModelEvaluationConfig:
     test_data_path: Path
     model_path: Path
     all_params: dict
-    metric_file_name: Path
+    metric_file_path: Path
     target_column: str
-    mlflow_uri: str
+

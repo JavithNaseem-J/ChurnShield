@@ -1,3 +1,5 @@
-ElasticNet:
-  alpha: 0.2
-  l1_ratio: 0.1
+HistGradientBoostingClassifier:
+  l2_regularization: 0
+  learning_rate: 0.1
+  max_depth: 6
+  max_iter: 300

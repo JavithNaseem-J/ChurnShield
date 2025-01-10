@@ -1,8 +1,8 @@
 import pandas as pd
 import os
 from mlproject import logger
-from sklearn.linear_model import ElasticNet
 import joblib
+from sklearn.ensemble import HistGradientBoostingClassifier
 from mlproject.entities.config_entity import ModelTrainerConfig
 
 
@@ -23,8 +23,8 @@ class ModelTrainer:
         test_y = test_data[[self.config.target_column]]
 
 
-        lr = ElasticNet(alpha=self.config.alpha, l1_ratio=self.config.l1_ratio, random_state=42)
-        lr.fit(train_x, train_y)
+        classifier = HistGradientBoostingClassifier(l2_regularization=self.config.l2_regularization, max_depth=self.config.max_depth,max_iter=self.config.max_iter, random_state=42)
+        classifier.fit(train_x, train_y)
 
-        joblib.dump(lr, os.path.join(self.config.root_dir, self.config.model_name))
+        joblib.dump(classifier, os.path.join(self.config.root_dir, self.config.model_name))
 

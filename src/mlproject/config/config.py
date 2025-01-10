@@ -69,7 +69,7 @@ class ConfigurationManager:
 
     def get_model_trainer_config(self) -> ModelTrainerConfig:
         config = self.config.model_trainer
-        params = self.params.ElasticNet
+        params = self.params.HistGradientBoostingClassifier
         schema =  self.schema.TARGET_COLUMN
 
         create_directories([config.root_dir])
@@ -79,8 +79,9 @@ class ConfigurationManager:
             train_data_path = config.train_data_path,
             test_data_path = config.test_data_path,
             model_name = config.model_name,
-            alpha = params.alpha,
-            l1_ratio = params.l1_ratio,
+            l2_regularization = params.l2_regularization,
+            max_depth = params.max_depth,
+            max_iter = params.max_iter,
             target_column = schema.name
             
         )
@@ -90,21 +91,18 @@ class ConfigurationManager:
 
 
     def get_model_evaluation_config(self) -> ModelEvaluationConfig:
-        config = self.config.model_evaluation
-        params = self.params.ElasticNet
-        schema =  self.schema.TARGET_COLUMN
+        config = self.config["model_evaluation"]
+        params = self.params["HistGradientBoostingClassifier"]
+        schema = self.schema["TARGET_COLUMN"]
 
-        create_directories([config.root_dir])
+        create_directories([config["root_dir"]])
 
         model_evaluation_config = ModelEvaluationConfig(
-            root_dir=config.root_dir,
-            test_data_path=config.test_data_path,
-            model_path = config.model_path,
+            root_dir=Path(config["root_dir"]),
+            test_data_path=Path(config["test_data_path"]),
+            model_path=Path(config["model_path"]),
             all_params=params,
-            metric_file_name = config.metric_file_name,
-            target_column = schema.name,
-            mlflow_uri="https://dagshub.com/entbappy/End-to-end-Machine-Learning-Project-with-MLflow.mlflow",
-           
+            metric_file_path=Path(config["metric_file_path"]),
+            target_column=schema["name"],
         )
-
         return model_evaluation_config
