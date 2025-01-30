@@ -92,7 +92,7 @@ class ConfigurationManager:
 
     def get_model_evaluation_config(self) -> ModelEvaluationConfig:
         config = self.config["model_evaluation"]
-        params = self.params["HistGradientBoostingClassifier"]
+        params = self.params.HistGradientBoostingClassifier
         schema = self.schema["TARGET_COLUMN"]
 
         create_directories([config["root_dir"]])
