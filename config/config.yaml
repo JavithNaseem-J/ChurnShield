@@ -19,6 +19,7 @@ data_transformation:
   data_path: artifacts/data_ingestion/winequality-red.csv
   target_column: quality
   preprocessor_path: artifacts/data_transformation/preprocessor.pkl
+  label_encoder : artifacts/data_transformation/label_encoder.pkl
 
 
 

@@ -18,11 +18,11 @@ def training():
     return "Training Successful!" 
 
 
-@app.route('/predict',methods=['POST','GET']) # route to show the predictions in a web UI
+@app.route('/predict',methods=['POST','GET'])
 def index():
     if request.method == 'POST':
         try:
-            #  reading the inputs given by the user
+            # reading the inputs given by the user
             fixed_acidity =float(request.form['fixed_acidity'])
             volatile_acidity =float(request.form['volatile_acidity'])
             citric_acid =float(request.form['citric_acid'])
@@ -35,14 +35,14 @@ def index():
             sulphates =float(request.form['sulphates'])
             alcohol =float(request.form['alcohol'])
        
-         
-            data = [fixed_acidity,volatile_acidity,citric_acid,residual_sugar,chlorides,free_sulfur_dioxide,total_sulfur_dioxide,density,pH,sulphates,alcohol]
+            data = [fixed_acidity,volatile_acidity,citric_acid,residual_sugar,chlorides,
+                   free_sulfur_dioxide,total_sulfur_dioxide,density,pH,sulphates,alcohol]
             data = np.array(data).reshape(1, 11)
             
             obj = PredictionPipeline()
-            predict = obj.predict(data)
+            prediction = obj.predict(data)
 
-            return render_template('results.html', prediction = str(predict))
+            return render_template('results.html', prediction=prediction)
 
         except Exception as e:
             print('The Exception message is: ',e)
