@@ -22,8 +22,10 @@ class DataValidationConfig:
 
 @dataclass(frozen=True)
 class DataTransformationConfig:
-    root_dir: Path
+    root_dir:Path
     data_path: Path
+    target_column: str
+    preprocessor_path: Path
 
 
 
@@ -33,19 +35,25 @@ class ModelTrainerConfig:
     train_data_path: Path
     test_data_path: Path
     model_name: str
-    l2_regularization: int
-    max_depth: int
-    max_iter: int
+    n_estimators: int
+    min_samples_split: int
+    min_samples_leaf: int
+    max_samples: int
+    max_features: str
+    max_depth: str
+    criterion: str
+    bootstrap: bool
     target_column: str
 
 
 
 @dataclass(frozen=True)
 class ModelEvaluationConfig:
-    root_dir: Path
-    test_data_path: Path
-    model_path: Path
-    all_params: dict
-    metric_file_path: Path
-    target_column: str
+    root_dir:Path
+    model_path:Path
+    test_data_path:Path
+    all_params:dict
+    metric_file_path:Path
+    preprocessor_path: Path
+    target_column:str
 

@@ -55,21 +55,21 @@ class ConfigurationManager:
 
     def get_data_transformation_config(self) -> DataTransformationConfig:
         config = self.config.data_transformation
-
         create_directories([config.root_dir])
-
         data_transformation_config = DataTransformationConfig(
-            root_dir=config.root_dir,
-            data_path=config.data_path,
+        root_dir=config.root_dir,
+        data_path=config.data_path,
+        target_column=config.target_column,
+        preprocessor_path=config.preprocessor_path
         )
-
+    
         return data_transformation_config
     
 
 
     def get_model_trainer_config(self) -> ModelTrainerConfig:
         config = self.config.model_trainer
-        params = self.params.HistGradientBoostingClassifier
+        params = self.params.RandomForestClassifier
         schema =  self.schema.TARGET_COLUMN
 
         create_directories([config.root_dir])
@@ -79,30 +79,36 @@ class ConfigurationManager:
             train_data_path = config.train_data_path,
             test_data_path = config.test_data_path,
             model_name = config.model_name,
-            l2_regularization = params.l2_regularization,
+            n_estimators = params.n_estimators,
+            min_samples_split = params.min_samples_split,
+            min_samples_leaf = params.min_samples_leaf,
+            max_samples = params.max_samples,
+            max_features = params.max_features,
             max_depth = params.max_depth,
-            max_iter = params.max_iter,
+            criterion = params.criterion,
+            bootstrap = params.bootstrap,
             target_column = schema.name
-            
         )
 
         return model_trainer_config
     
 
+        
 
     def get_model_evaluation_config(self) -> ModelEvaluationConfig:
-        config = self.config["model_evaluation"]
-        params = self.params.HistGradientBoostingClassifier
-        schema = self.schema["TARGET_COLUMN"]
+        config = self.config.model_evaluation
+        params = self.params.RandomForestClassifier
+        schema = self.schema.TARGET_COLUMN
 
-        create_directories([config["root_dir"]])
+        create_directories([config.root_dir])
 
         model_evaluation_config = ModelEvaluationConfig(
-            root_dir=Path(config["root_dir"]),
-            test_data_path=Path(config["test_data_path"]),
-            model_path=Path(config["model_path"]),
+            root_dir=config.root_dir,
+            test_data_path=config.test_data_path,
+            model_path=config.model_path,
             all_params=params,
-            metric_file_path=Path(config["metric_file_path"]),
-            target_column=schema["name"],
+            metric_file_path=config.metric_file_path,
+            preprocessor_path=config.preprocessor_path,
+            target_column=schema.name,
         )
         return model_evaluation_config

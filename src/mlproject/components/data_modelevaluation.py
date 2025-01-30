@@ -7,42 +7,71 @@ import joblib
 from mlproject.entities.config_entity import ModelEvaluationConfig
 from mlproject.utils.common import save_json
 from pathlib import Path
+from mlproject import logger
+import json
 
 
 class ModelEvaluation:
     def __init__(self, config: ModelEvaluationConfig):
         self.config = config
 
-    def eval_metrics(self, actual, pred):
-        accuracy = accuracy_score(actual, pred)
-        precision = precision_score(actual, pred, average="weighted")
-        recall = recall_score(actual, pred, average="weighted")
-        f1 = f1_score(actual, pred, average="weighted")
-        return accuracy, precision, recall, f1
+    def evaluate(self):
+        # Validate file paths
+        if not os.path.exists(self.config.test_data_path):
+            raise FileNotFoundError(f"Test data file not found at {self.config.test_data_path}")
+        if not os.path.exists(self.config.preprocessor_path):
+            raise FileNotFoundError(f"Preprocessor file not found at {self.config.preprocessor_path}")
+        if not os.path.exists(self.config.model_path):
+            raise FileNotFoundError(f"Model file not found at {self.config.model_path}")
 
-    def save_results(self):
-        # Load test data and model
-        test_data = pd.read_csv(self.config.test_data_path)
+        # Load preprocessor and model
+        logger.info("Loading preprocessor and model...")
+        preprocessor = joblib.load(self.config.preprocessor_path)
         model = joblib.load(self.config.model_path)
 
-        # Split features and target
-        test_x = test_data.drop(columns=[self.config.target_column])
+        # Load test data
+        logger.info(f"Loading test data from {self.config.test_data_path}...")
+        test_data = pd.read_csv(self.config.test_data_path)
+
+        # Extract target column
+        if self.config.target_column not in test_data.columns:
+            raise KeyError(f"Target column '{self.config.target_column}' not found in test data")
+
         test_y = test_data[self.config.target_column]
+        test_x = test_data.drop(columns=[self.config.target_column])
 
-        # Predict using the loaded model
-        predicted_qualities = model.predict(test_x)
+        logger.info(f"Test data shape: X={test_x.shape}, y={test_y.shape}")
 
-        # Compute metrics
-        accuracy, precision, recall, f1 = self.eval_metrics(test_y, predicted_qualities)
+        # Preprocess test features
+        logger.info("Preprocessing test features...")
+        test_x_transformed = preprocessor.transform(test_x)
 
-        # Save metrics as JSON
-        scores = {
+        # Make predictions
+        logger.info("Making predictions on the test data...")
+        predictions = model.predict(test_x_transformed)
+
+        # Evaluate the model
+        logger.info("Evaluating model performance...")
+        accuracy = accuracy_score(test_y, predictions)
+        precision = precision_score(test_y, predictions, average="weighted")
+        recall = recall_score(test_y, predictions, average="weighted")
+        f1 = f1_score(test_y, predictions, average="weighted")
+
+        logger.info(f"Model Evaluation Metrics:\naccuracy: {accuracy}\nprecision: {precision}\nrecall: {recall}\nf1: {f1}")
+
+        # Save the evaluation metrics
+        metrics_path = os.path.join(self.config.root_dir, "metrics.json")
+        metrics = {
             "accuracy": accuracy,
             "precision": precision,
             "recall": recall,
-            "f1": f1,
+            "f1": f1
         }
-        save_json(path=self.config.metric_file_path, data=scores)
+        with open(metrics_path, "w") as f:
+            json.dump(metrics, f, indent=4)
+        logger.info(f"Evaluation metrics saved at {metrics_path}")
+
+        return metrics
 
 
 
