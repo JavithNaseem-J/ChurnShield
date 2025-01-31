@@ -18,35 +18,41 @@ def training():
     return "Training Successful!" 
 
 
-@app.route('/predict',methods=['POST','GET'])
+@app.route('/predict', methods=['POST', 'GET'])
 def index():
     if request.method == 'POST':
         try:
-            # reading the inputs given by the user
-            fixed_acidity =float(request.form['fixed_acidity'])
-            volatile_acidity =float(request.form['volatile_acidity'])
-            citric_acid =float(request.form['citric_acid'])
-            residual_sugar =float(request.form['residual_sugar'])
-            chlorides =float(request.form['chlorides'])
-            free_sulfur_dioxide =float(request.form['free_sulfur_dioxide'])
-            total_sulfur_dioxide =float(request.form['total_sulfur_dioxide'])
-            density =float(request.form['density'])
-            pH =float(request.form['pH'])
-            sulphates =float(request.form['sulphates'])
-            alcohol =float(request.form['alcohol'])
-       
-            data = [fixed_acidity,volatile_acidity,citric_acid,residual_sugar,chlorides,
-                   free_sulfur_dioxide,total_sulfur_dioxide,density,pH,sulphates,alcohol]
-            data = np.array(data).reshape(1, 11)
-            
-            obj = PredictionPipeline()
-            prediction = obj.predict(data)
+            # Read user inputs
+            fixed_acidity = float(request.form['fixed_acidity'])
+            volatile_acidity = float(request.form['volatile_acidity'])
+            citric_acid = float(request.form['citric_acid'])
+            residual_sugar = float(request.form['residual_sugar'])
+            chlorides = float(request.form['chlorides'])
+            free_sulfur_dioxide = float(request.form['free_sulfur_dioxide'])
+            total_sulfur_dioxide = float(request.form['total_sulfur_dioxide'])
+            density = float(request.form['density'])
+            pH = float(request.form['pH'])
+            sulphates = float(request.form['sulphates'])
+            alcohol = float(request.form['alcohol'])
 
-            return render_template('results.html', prediction=prediction)
+            # Convert data into array for prediction
+            data = np.array([fixed_acidity, volatile_acidity, citric_acid, residual_sugar,
+                             chlorides, free_sulfur_dioxide, total_sulfur_dioxide, density,
+                             pH, sulphates, alcohol]).reshape(1, -1)
+
+            # Create prediction pipeline object
+            obj = PredictionPipeline()
+
+            # Predict the original label and its meaning
+            predicted_quality, quality_meaning = obj.predict(data)
+
+            return render_template('results.html', 
+                                   prediction=str(predicted_quality), 
+                                   meaning=quality_meaning)
 
         except Exception as e:
-            print('The Exception message is: ',e)
-            return 'something is wrong'
+            print('The Exception message is: ', e)
+            return 'Something went wrong'
 
     else:
         return render_template('index.html')
