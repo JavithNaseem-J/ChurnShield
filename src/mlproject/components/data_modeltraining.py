@@ -2,7 +2,7 @@ import pandas as pd
 import os
 from mlproject import logger
 import joblib
-from sklearn.ensemble import RandomForestClassifier
+from catboost import CatBoostClassifier
 import numpy as np
 from mlproject.entities.config_entity import ModelTrainerConfig
 
@@ -36,15 +36,11 @@ class ModelTrainer:
         logger.info(f"Testing data shape: X={test_x.shape}, y={test_y.shape}")
 
         # Train the model
-        logger.info("Initializing RandomForestClassifier...")
-        classifier = RandomForestClassifier(n_estimators=self.config.n_estimators,
-                                            min_samples_split=self.config.min_samples_split,
-                                            min_samples_leaf=self.config.min_samples_leaf,
-                                            max_samples=self.config.max_samples,
-                                            max_features=self.config.max_features,
-                                            max_depth=self.config.max_depth,
-                                            criterion=self.config.criterion,
-                                            bootstrap=self.config.bootstrap,
+        logger.info("Initializing CatBoostClassifier...")
+        classifier = CatBoostClassifier(iterations=self.config.iterations,
+                                            max_depth=self.config.depth,
+                                            l2_leaf_reg=self.config.l2_leaf_reg,
+                                            learning_rate=self.config.learning_rate,
                                             random_state=42)
         classifier.fit(train_x, train_y)
 

@@ -35,14 +35,10 @@ class ModelTrainerConfig:
     train_data_path: Path
     test_data_path: Path
     model_name: str
-    n_estimators: int
-    min_samples_split: int
-    min_samples_leaf: int
-    max_samples: int
-    max_features: str
-    max_depth: str
-    criterion: str
-    bootstrap: bool
+    depth: int
+    iterations: int
+    learning_rate: float
+    l2_leaf_reg: float
     target_column: str
 
 

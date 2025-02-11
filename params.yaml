@@ -1,10 +1,5 @@
-RandomForestClassifier:
-  n_estimators : 200
-  min_samples_split : 5
-  min_samples_leaf : 1
-  max_samples : null
-  max_features : sqrt
-  max_depth : 50
-  criterion : gini
-  class_weight : balanced_subsample
-  bootstrap : False
+CatBoostClassifier:
+  depth: 6
+  iterations: 700
+  l2_leaf_reg: 3
+  learning_rate: 0.05

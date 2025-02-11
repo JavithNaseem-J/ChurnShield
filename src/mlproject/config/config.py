@@ -69,7 +69,7 @@ class ConfigurationManager:
 
     def get_model_trainer_config(self) -> ModelTrainerConfig:
         config = self.config.model_trainer
-        params = self.params.RandomForestClassifier
+        params = self.params.CatBoostClassifier
         schema =  self.schema.TARGET_COLUMN
 
         create_directories([config.root_dir])
@@ -79,14 +79,10 @@ class ConfigurationManager:
             train_data_path = config.train_data_path,
             test_data_path = config.test_data_path,
             model_name = config.model_name,
-            n_estimators = params.n_estimators,
-            min_samples_split = params.min_samples_split,
-            min_samples_leaf = params.min_samples_leaf,
-            max_samples = params.max_samples,
-            max_features = params.max_features,
-            max_depth = params.max_depth,
-            criterion = params.criterion,
-            bootstrap = params.bootstrap,
+            depth=params.depth,
+            iterations=params.iterations,
+            learning_rate=params.learning_rate,
+            l2_leaf_reg=params.l2_leaf_reg,
             target_column = schema.name
         )
 
@@ -97,7 +93,7 @@ class ConfigurationManager:
 
     def get_model_evaluation_config(self) -> ModelEvaluationConfig:
         config = self.config.model_evaluation
-        params = self.params.RandomForestClassifier
+        params = self.params.CatBoostClassifier
         schema = self.schema.TARGET_COLUMN
 
         create_directories([config.root_dir])

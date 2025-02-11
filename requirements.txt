@@ -3,6 +3,7 @@ mlflow
 notebook
 numpy
 scikit-learn
+catboost
 matplotlib
 seaborn
 python-box
