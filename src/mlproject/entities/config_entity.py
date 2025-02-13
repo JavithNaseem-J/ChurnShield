@@ -52,4 +52,5 @@ class ModelEvaluationConfig:
     metric_file_path:Path
     preprocessor_path: Path
     target_column:str
+    mlflow_uri:str
 

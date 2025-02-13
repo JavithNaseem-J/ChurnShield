@@ -106,5 +106,6 @@ class ConfigurationManager:
             metric_file_path=config.metric_file_path,
             preprocessor_path=config.preprocessor_path,
             target_column=schema.name,
+            mlflow_uri="https://dagshub.com/JavithNaseem-J/Wine-Quality-Prediction.mlflow"
         )
         return model_evaluation_config
