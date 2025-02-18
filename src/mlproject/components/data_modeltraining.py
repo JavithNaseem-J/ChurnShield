@@ -2,7 +2,7 @@ import pandas as pd
 import os
 from mlproject import logger
 import joblib
-from catboost import CatBoostClassifier
+from lightgbm import LGBMClassifier
 import numpy as np
 from mlproject.entities.config_entity import ModelTrainerConfig
 
@@ -36,12 +36,16 @@ class ModelTrainer:
         logger.info(f"Testing data shape: X={test_x.shape}, y={test_y.shape}")
 
         # Train the model
-        logger.info("Initializing CatBoostClassifier...")
-        classifier = CatBoostClassifier(iterations=self.config.iterations,
-                                            max_depth=self.config.depth,
-                                            l2_leaf_reg=self.config.l2_leaf_reg,
+        logger.info("Initializing RandomForestClassifier...")
+        classifier = LGBMClassifier(n_estimators=self.config.n_estimators,
+                                            max_depth=self.config.max_depth,
+                                            subsample=self.config.subsample,
+                                            num_leaves=self.config.num_leaves,
                                             learning_rate=self.config.learning_rate,
-                                            random_state=42)
+                                            lambda_l2=self.config.lambda_l2,
+                                            lambda_l1=self.config.lambda_l1,
+                                            colsample_bytree=self.config.colsample_bytree,
+                                            random_state=42,verbose=-1)
         classifier.fit(train_x, train_y)
 
         logger.info("Training the model...")

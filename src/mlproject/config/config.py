@@ -69,7 +69,7 @@ class ConfigurationManager:
 
     def get_model_trainer_config(self) -> ModelTrainerConfig:
         config = self.config.model_trainer
-        params = self.params.CatBoostClassifier
+        params = self.params.LGBMClassifier
         schema =  self.schema.TARGET_COLUMN
 
         create_directories([config.root_dir])
@@ -79,33 +79,33 @@ class ConfigurationManager:
             train_data_path = config.train_data_path,
             test_data_path = config.test_data_path,
             model_name = config.model_name,
-            depth=params.depth,
-            iterations=params.iterations,
-            learning_rate=params.learning_rate,
-            l2_leaf_reg=params.l2_leaf_reg,
-            target_column = schema.name
+            subsample = params.subsample,
+            num_leaves = params.num_leaves,
+            n_estimators = params.n_estimators,
+            max_depth = params.max_depth,
+            learning_rate = params.learning_rate,
+            lambda_l2 = params.lambda_l2,
+            lambda_l1 = params.lambda_l1,
+            colsample_bytree = params.colsample_bytree
         )
 
         return model_trainer_config
     
 
-        
-
     def get_model_evaluation_config(self) -> ModelEvaluationConfig:
         config = self.config.model_evaluation
-        params = self.params.CatBoostClassifier
+        params = self.params.LGBMClassifier
         schema = self.schema.TARGET_COLUMN
 
         create_directories([config.root_dir])
 
         model_evaluation_config = ModelEvaluationConfig(
             root_dir=config.root_dir,
-            test_data_path=config.test_data_path,
             model_path=config.model_path,
-            all_params=params,
             metric_file_path=config.metric_file_path,
             preprocessor_path=config.preprocessor_path,
+            test_raw_data=config.test_raw_data,  # Using the correct attribute name from config
             target_column=schema.name,
-            mlflow_uri="https://dagshub.com/JavithNaseem-J/Wine-Quality-Prediction.mlflow"
+            all_params=params
         )
         return model_evaluation_config

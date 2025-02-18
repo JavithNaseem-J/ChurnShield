@@ -35,22 +35,24 @@ class ModelTrainerConfig:
     train_data_path: Path
     test_data_path: Path
     model_name: str
-    depth: int
-    iterations: int
+    subsample: float
+    num_leaves: int
+    n_estimators: int
+    max_depth: int
     learning_rate: float
-    l2_leaf_reg: float
-    target_column: str
+    lambda_l2: float
+    lambda_l1: float
+    colsample_bytree: float
 
 
 
-@dataclass(frozen=True)
+@dataclass
 class ModelEvaluationConfig:
-    root_dir:Path
-    model_path:Path
-    test_data_path:Path
-    all_params:dict
-    metric_file_path:Path
+    root_dir: Path
+    model_path: Path
+    metric_file_path: Path
     preprocessor_path: Path
-    target_column:str
-    mlflow_uri:str
+    test_raw_data: Path  # Using the correct field name that matches the config
+    target_column: str
+    all_params: dict
 
