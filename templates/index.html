@@ -1,213 +1,448 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Web App</title>
-        <link rel="icon" type="image/x-icon" href="static/assets/favicon.ico" />
-        <!-- Font Awesome icons (free version)-->
-        <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
-        <!-- Google fonts-->
-        <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="static/css/styles.css" rel="stylesheet" />
-    </head>
-    <body>
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="/">Home</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    Menu
-                    <i class="fas fa-bars"></i>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ms-auto py-4 py-lg-0">
-<!--                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="index.html">Home</a></li>-->
-<!--                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="about.html">About</a></li>-->
-<!--                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="post.html">Sample Post</a></li>-->
-<!--                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="contact.html">Contact</a></li>-->
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        <!-- Page Header-->
-        <header class="masthead" style="background-image: url('static/assets/img/wine.jpg')">
-            <div class="container position-relative px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-md-10 col-lg-8 col-xl-7">
-                        <div class="site-heading">
-                            <h1>Wine Quality Prediction</h1>
-                            <span class="subheading">A Wine Quality Checking Web App</span>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Churn Prediction</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-bg: #f5f7fa;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            box-shadow: var(--box-shadow);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .form-container {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        .btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 16px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: inline-block;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-submit {
+            background-color: var(--accent-color);
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .btn-submit:hover {
+            background-color: #c0392b;
+        }
+
+        .form-header {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 40px;
+            border-top: 1px solid #ddd;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 15px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-3px);
+            background-color: var(--secondary-color);
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .info-tooltip {
+            display: inline-block;
+            position: relative;
+            margin-left: 5px;
+            color: var(--secondary-color);
+            cursor: help;
+        }
+
+        .info-tooltip .tooltip-text {
+            visibility: hidden;
+            width: 250px;
+            background-color: rgba(44, 62, 80, 0.9);
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 14px;
+            font-weight: normal;
+        }
+
+        .info-tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Customer Churn Prediction</h1>
+            <p>Enter customer details to predict the likelihood of churn</p>
+        </header>
+
+        <div class="form-container">
+            <form action="/predict" method="POST">
+                <div class="section">
+                    <h2 class="form-header">Personal Information</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="gender">Gender</label>
+                            <select name="gender" id="gender" required>
+                                <option value="">Select Gender</option>
+                                <option value="Female">Female</option>
+                                <option value="Male">Male</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="seniorCitizen">Senior Citizen</label>
+                            <select name="seniorCitizen" id="seniorCitizen" required>
+                                <option value="">Select Option</option>
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="partner">Partner</label>
+                            <select name="partner" id="partner" required>
+                                <option value="">Select Option</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="dependents">Dependents</label>
+                            <select name="dependents" id="dependents" required>
+                                <option value="">Select Option</option>
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                            </select>
                         </div>
                     </div>
                 </div>
-            </div>
-        </header>
 
-
-        <!-- Main Content-->
-        <div class="container px-4 px-lg-5">
-
-           <!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<title>Form-v9 by Colorlib</title>
-	<!-- Mobile Specific Metas -->
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<!-- Font-->
-	<link rel="stylesheet" type="text/css" href="static/css2/nunito-font.css">
-	<!-- Main Style Css -->
-    <link rel="stylesheet" href="style.css"/>
-</head>
-<body class="form-v9">
-	<div class="page-content">
-		<div class="form-v9-content" style="background-image: url('static/assets/img/form-v9.jpg')">
-			<form class="form-detail" action="/predict" method="post">
-				<h2>Please Fill The Information</h2>
-				<div class="form-row-total">
-
-					<div class="form-row">
-                        <label for="fixed_acidity"> Fixed Acidity:</label>
-						<input type="text" name="fixed_acidity" id="fixed_acidity" class="input-text" placeholder="fixed_acidity" required>
-					</div>
-
-					<div class="form-row">
-                        <label for="volatile_acidity"> Volatile Acidity:</label>
-						<input type="text" name="volatile_acidity" id="volatile_acidity" class="input-text" placeholder="volatile_acidity" required>
-					</div>
-
-				</div>
-
-
-				<div class="form-row-total">
-
-                    <div class="form-row">
-                        <label for="citric_acid"> Citric Acid:</label>
-						<input type="text" name="citric_acid" id="citric_acid" class="input-text" placeholder="citric_acid" required>
-					</div>
-
-
-                    <div class="form-row">
-                        <label for="residual_sugar"> Residual Sugar:</label>
-						<input type="text" name="residual_sugar" id="residual_sugar" class="input-text" placeholder="residual_sugar" required>
-					</div>
-
-				</div>
-
-
-                <div class="form-row-total">
-
-                    <div class="form-row">
-                        <label for="chlorides"> Chlorides:</label>
-						<input type="text" name="chlorides" id="chlorides" class="input-text" placeholder="chlorides" required>
-					</div>
-
-                    <div class="form-row">
-                        <label for="free_sulfur_dioxide"> Free Sulfur Dioxide:</label>
-						<input type="text" name="free_sulfur_dioxide" id="free_sulfur_dioxide" class="input-text" placeholder="free_sulfur_dioxide" required>
-					</div>
-
-				</div>
-
-
-                <div class="form-row-total">
-
-                    <div class="form-row">
-                        <label for="total_sulfur_dioxide"> Total Sulfur Dioxide:</label>
-						<input type="text" name="total_sulfur_dioxide" id="total_sulfur_dioxide" class="input-text" placeholder="total_sulfur_dioxide" required>
-					</div>
-
-                    <div class="form-row">
-                        <label for="density"> Density:</label>
-						<input type="text" name="density" id="density" class="input-text" placeholder="density" required>
-					</div>
-
-				</div>
-
-
-                <div class="form-row-total">
-
-                    <div class="form-row">
-                        <label for="pH"> pH:</label>
-						<input type="text" name="pH" id="pH" class="input-text" placeholder="pH" required>
-					</div>
-
-                    <div class="form-row">
-                        <label for="sulphates"> Sulphates:</label>
-						<input type="text" name="sulphates" id="sulphates" class="input-text" placeholder="sulphates" required>
-					</div>
-
-				</div>
-
-
-                <div class="form-row-total">
-
-                    <div class="form-row">
-                        <label for="alcohol"> Alcohol:</label>
-						<input type="text" name="alcohol" id="alcohol" class="input-text" placeholder="alcohol" required>
-					</div>
-
-
-				</div>
-
-
-				<div class="form-row-last">
-					<input type="submit" name="register" class="register" value="Predict">
-				</div>
-			</form>
-		</div>
-	</div>
-</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
-</html>
-
-        </div>
-
-
-        <!-- Footer-->
-        <footer class="border-top">
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-md-10 col-lg-8 col-xl-7">
-                        <ul class="list-inline text-center">
-                            <li class="list-inline-item">
-                                <a href="https://www.linkedin.com/in/boktiarahmed73/">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fas fa-circle fa-stack-2x"></i>
-                                        <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="https://www.youtube.com/dswithbappy">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fas fa-circle fa-stack-2x"></i>
-                                        <i class="fab fa-youtube fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="https://github.com/entbappy">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fas fa-circle fa-stack-2x"></i>
-                                        <i class="fab fa-github fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                        </ul>
-                        <div class="small text-center text-muted fst-italic"></div>
-                        <div class="small text-center text-muted fst-italic"></div>
+                <div class="section">
+                    <h2 class="form-header">Service Information</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="tenure">Tenure (months)</label>
+                            <input type="number" name="tenure" id="tenure" min="0" max="72" required>
+                            <div class="info-tooltip">
+                                <i class="fas fa-info-circle"></i>
+                                <span class="tooltip-text">Customer's duration with the company in months (1-72)</span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phoneService">Phone Service</label>
+                            <select name="phoneService" id="phoneService" required>
+                                <option value="">Select Option</option>
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="multipleLines">Multiple Lines</label>
+                            <select name="multipleLines" id="multipleLines" required>
+                                <option value="">Select Option</option>
+                                <option value="No phone service">No phone service</option>
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="internetService">Internet Service</label>
+                            <select name="internetService" id="internetService" required>
+                                <option value="">Select Option</option>
+                                <option value="DSL">DSL</option>
+                                <option value="Fiber optic">Fiber optic</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="onlineSecurity">Online Security</label>
+                            <select name="onlineSecurity" id="onlineSecurity" required>
+                                <option value="">Select Option</option>
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No internet service">No internet service</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="onlineBackup">Online Backup</label>
+                            <select name="onlineBackup" id="onlineBackup" required>
+                                <option value="">Select Option</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                                <option value="No internet service">No internet service</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="deviceProtection">Device Protection</label>
+                            <select name="deviceProtection" id="deviceProtection" required>
+                                <option value="">Select Option</option>
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No internet service">No internet service</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="techSupport">Tech Support</label>
+                            <select name="techSupport" id="techSupport" required>
+                                <option value="">Select Option</option>
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No internet service">No internet service</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="streamingTV">Streaming TV</label>
+                            <select name="streamingTV" id="streamingTV" required>
+                                <option value="">Select Option</option>
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No internet service">No internet service</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="streamingMovies">Streaming Movies</label>
+                            <select name="streamingMovies" id="streamingMovies" required>
+                                <option value="">Select Option</option>
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No internet service">No internet service</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
+
+                <div class="section">
+                    <h2 class="form-header">Contract Details</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="contract">Contract</label>
+                            <select name="contract" id="contract" required>
+                                <option value="">Select Option</option>
+                                <option value="Month-to-month">Month-to-month</option>
+                                <option value="One year">One year</option>
+                                <option value="Two year">Two year</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="paperlessBilling">Paperless Billing</label>
+                            <select name="paperlessBilling" id="paperlessBilling" required>
+                                <option value="">Select Option</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="paymentMethod">Payment Method</label>
+                            <select name="paymentMethod" id="paymentMethod" required>
+                                <option value="">Select Option</option>
+                                <option value="Electronic check">Electronic check</option>
+                                <option value="Mailed check">Mailed check</option>
+                                <option value="Bank transfer (automatic)">Bank transfer (automatic)</option>
+                                <option value="Credit card (automatic)">Credit card (automatic)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="form-header">Billing Information</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="monthlyCharges">Monthly Charges ($)</label>
+                            <input type="number" name="monthlyCharges" id="monthlyCharges" step="0.01" min="0" required>
+                            <div class="info-tooltip">
+                                <i class="fas fa-info-circle"></i>
+                                <span class="tooltip-text">Typical range is approximately $20-$120 per month</span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="totalCharges">Total Charges ($)</label>
+                            <input type="number" name="totalCharges" id="totalCharges" step="0.01" min="0" required>
+                            <div class="info-tooltip">
+                                <i class="fas fa-info-circle"></i>
+                                <span class="tooltip-text">Total amount charged to the customer since the beginning of service</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-submit">Predict Churn</button>
+            </form>
+        </div>
+
+        <footer>
+            <p>© 2025 Customer Churn Prediction System</p>
+            <div class="social-links">
+                <a href="https://linkedin.com/in/yourprofile" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://github.com/yourusername" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://instagram.com/yourhandle" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://yourportfolio.com" target="_blank" title="Portfolio"><i class="fas fa-briefcase"></i></a>
             </div>
         </footer>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="static/js/scripts.js"></script>
-    </body>
+    </div>
+
+    <script>
+        // Auto-calculate total charges based on tenure and monthly charges
+        document.addEventListener('DOMContentLoaded', function() {
+            const tenureInput = document.getElementById('tenure');
+            const monthlyChargesInput = document.getElementById('monthlyCharges');
+            const totalChargesInput = document.getElementById('totalCharges');
+            
+            function calculateTotal() {
+                const tenure = parseFloat(tenureInput.value) || 0;
+                const monthlyCharges = parseFloat(monthlyChargesInput.value) || 0;
+                
+                if (tenure > 0 && monthlyCharges > 0) {
+                    const total = (tenure * monthlyCharges).toFixed(2);
+                    totalChargesInput.value = total;
+                }
+            }
+            
+            tenureInput.addEventListener('input', calculateTotal);
+            monthlyChargesInput.addEventListener('input', calculateTotal);
+        });
+    </script>
+</body>
 </html>

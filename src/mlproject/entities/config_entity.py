@@ -22,9 +22,11 @@ class DataValidationConfig:
 
 @dataclass(frozen=True)
 class DataTransformationConfig:
-    root_dir:Path
+    root_dir: Path
     data_path: Path
     target_column: str
+    label_encoder: Path
+    feature_encoder: Path 
     preprocessor_path: Path
 
 

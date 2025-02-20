@@ -1,18 +1,15 @@
 artifacts_root: artifacts
 
-
 data_ingestion:
   root_dir: artifacts/data_ingestion
   source_URL: https://github.com/JavithNaseem-J/Bank-Loan-Report-PowerBi/raw/refs/heads/main/data.zip
   local_data_file: artifacts/data_ingestion/data.zip
   unzip_dir: artifacts/data_ingestion
 
-
 data_validation:
   root_dir: artifacts/data_validation
   unzip_data_dir: artifacts/data_ingestion/Tele_Comm.csv
   STATUS_FILE: artifacts/data_validation/status.txt
-
 
 data_transformation:
   root_dir: artifacts/data_transformation
@@ -20,17 +17,13 @@ data_transformation:
   target_column: Churn
   preprocessor_path: artifacts/data_transformation/preprocessor.pkl
   label_encoder : artifacts/data_transformation/label_encoders.pkl
-  feature_encoder : artifacts/data_transformation/feature_encoders.pkl
-
-
+  feature_encoder: artifacts/data_transformation/feature_encoders.pkl
 
 model_trainer:
   root_dir: artifacts/model_trainer
   train_data_path: artifacts/data_transformation/train_processed.npy
   test_data_path: artifacts/data_transformation/test_processed.npy
   model_name: model.joblib
-
-
 
 model_evaluation:
   root_dir: artifacts/model_evaluation

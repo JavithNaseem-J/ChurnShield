@@ -1,62 +1,59 @@
-from flask import Flask, render_template, request
-import os 
-import numpy as np
+from flask import Flask, request, render_template, jsonify
 import pandas as pd
-from mlproject.pipeline.pipelineprediction import PredictionPipeline
+from mlproject.pipeline.pipelineprediction import ChurnPredictionPipeline
 
+app = Flask(__name__)
 
-app = Flask(__name__) # initializing a flask app
+# Initialize the prediction pipeline
+pipeline = ChurnPredictionPipeline()
 
-@app.route('/',methods=['GET']) 
-def homePage():
-    return render_template("index.html")
+@app.route('/')
+def home():
+    """
+    Render the homepage with the input form.
+    """
+    return render_template('index.html')
 
+@app.route('/predict', methods=['POST'])
+def predict():
+    """
+    Handle POST requests to predict churn based on user input.
+    """
+    try:
+        # Extract input data from the form
+        input_data = {
+            'gender': [request.form['gender']],
+            'SeniorCitizen': [int(request.form['SeniorCitizen'])],
+            'Partner': [request.form['Partner']],
+            'Dependents': [request.form['Dependents']],
+            'tenure': [int(request.form['tenure'])],
+            'PhoneService': [request.form['PhoneService']],
+            'MultipleLines': [request.form['MultipleLines']],
+            'InternetService': [request.form['InternetService']],
+            'OnlineSecurity': [request.form['OnlineSecurity']],
+            'OnlineBackup': [request.form['OnlineBackup']],
+            'DeviceProtection': [request.form['DeviceProtection']],
+            'TechSupport': [request.form['TechSupport']],
+            'StreamingTV': [request.form['StreamingTV']],
+            'StreamingMovies': [request.form['StreamingMovies']],
+            'Contract': [request.form['Contract']],
+            'PaperlessBilling': [request.form['PaperlessBilling']],
+            'PaymentMethod': [request.form['PaymentMethod']],
+            'MonthlyCharges': [float(request.form['MonthlyCharges'])],
+            'TotalCharges': [float(request.form['TotalCharges'])]
+        }
 
-@app.route('/train',methods=['GET'])  # route to train the pipeline
-def training():
-    os.system("python main.py")
-    return "Training Successful!" 
+        # Convert input data to a DataFrame
+        input_df = pd.DataFrame(input_data)
 
+        # Make prediction using the pipeline
+        prediction = pipeline.predict(input_df)
 
-@app.route('/predict', methods=['POST', 'GET'])
-def index():
-    if request.method == 'POST':
-        try:
-            # Read user inputs
-            fixed_acidity = float(request.form['fixed_acidity'])
-            volatile_acidity = float(request.form['volatile_acidity'])
-            citric_acid = float(request.form['citric_acid'])
-            residual_sugar = float(request.form['residual_sugar'])
-            chlorides = float(request.form['chlorides'])
-            free_sulfur_dioxide = float(request.form['free_sulfur_dioxide'])
-            total_sulfur_dioxide = float(request.form['total_sulfur_dioxide'])
-            density = float(request.form['density'])
-            pH = float(request.form['pH'])
-            sulphates = float(request.form['sulphates'])
-            alcohol = float(request.form['alcohol'])
+        # Return the prediction result
+        return render_template('results.html', prediction=prediction)
 
-            # Convert data into array for prediction
-            data = np.array([fixed_acidity, volatile_acidity, citric_acid, residual_sugar,
-                             chlorides, free_sulfur_dioxide, total_sulfur_dioxide, density,
-                             pH, sulphates, alcohol]).reshape(1, -1)
+    except Exception as e:
+        return jsonify({'error': str(e)})
 
-            # Create prediction pipeline object
-            obj = PredictionPipeline()
-
-            # Predict the original label and its meaning
-            predicted_quality, quality_meaning = obj.predict(data)
-
-            return render_template('results.html', 
-                                   prediction=str(predicted_quality), 
-                                   meaning=quality_meaning)
-
-        except Exception as e:
-            print('The Exception message is: ', e)
-            return 'Something went wrong'
-
-    else:
-        return render_template('index.html')
-
-
-if __name__ == "__main__":
-	app.run(host="0.0.0.0", port = 8080)
+if __name__ == '__main__':
+    app.run(debug=True)

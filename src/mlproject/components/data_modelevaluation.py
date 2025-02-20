@@ -15,19 +15,17 @@ import json
 
 
 
-    
-
 class ModelEvaluation:
     def __init__(self, config: ModelEvaluationConfig):
         self.config = config
         
         # Initialize MLflow tracking
         os.environ['MLFLOW_TRACKING_USERNAME'] = "JavithNaseem-J"
-        os.environ['MLFLOW_TRACKING_PASSWORD'] = "fc8980ed3562ad9f63b1351811c99954c11dd06b"
+        os.environ['MLFLOW_TRACKING_PASSWORD'] = "f0579ee3882954f46ea947a3e4c6a427950a5ae5"
         
         dagshub.init(repo_owner="JavithNaseem-J", repo_name="Wine-Quality-Prediction")
         mlflow.set_tracking_uri("https://dagshub.com/JavithNaseem-J/Wine-Quality-Prediction.mlflow")
-        mlflow.set_experiment("wine_quality_prediction")
+        mlflow.set_experiment("Flight-Fare-Predcition")
 
     def evaluate(self):
         try:
@@ -46,8 +44,8 @@ class ModelEvaluation:
                 mlflow.log_params(self.config.all_params)
 
                 # Load test data
-                logger.info(f"Loading test data from {self.config.test_data_path}...")
-                test_data = pd.read_csv(self.config.test_data_path)
+                logger.info(f"Loading test data from {self.config.test_raw_data}...")
+                test_data = pd.read_csv(self.config.test_raw_data)
 
                 # Extract target column
                 if self.config.target_column not in test_data.columns:

@@ -57,12 +57,13 @@ class ConfigurationManager:
         config = self.config.data_transformation
         create_directories([config.root_dir])
         data_transformation_config = DataTransformationConfig(
-        root_dir=config.root_dir,
-        data_path=config.data_path,
-        target_column=config.target_column,
-        preprocessor_path=config.preprocessor_path
+            root_dir=config.root_dir,
+            data_path=config.data_path,
+            target_column=config.target_column,
+            preprocessor_path=config.preprocessor_path,
+            label_encoder=config.label_encoder,
+            feature_encoder=config.feature_encoder 
         )
-    
         return data_transformation_config
     
 
