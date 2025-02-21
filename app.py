@@ -1,59 +1,60 @@
-from flask import Flask, request, render_template, jsonify
-import pandas as pd
+from flask import Flask, render_template, request
+import sys
+import os
+from pathlib import Path
+
+# Add the src directory to Python path
+src_path = Path(__file__).parent / "src"
+sys.path.append(str(src_path))
+
 from mlproject.pipeline.pipelineprediction import ChurnPredictionPipeline
+import pandas as pd
 
 app = Flask(__name__)
 
-# Initialize the prediction pipeline
-pipeline = ChurnPredictionPipeline()
-
 @app.route('/')
 def home():
-    """
-    Render the homepage with the input form.
-    """
     return render_template('index.html')
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    """
-    Handle POST requests to predict churn based on user input.
-    """
     try:
-        # Extract input data from the form
-        input_data = {
+        # Get form data - matching the camelCase naming in your HTML form
+        data = {
             'gender': [request.form['gender']],
-            'SeniorCitizen': [int(request.form['SeniorCitizen'])],
-            'Partner': [request.form['Partner']],
-            'Dependents': [request.form['Dependents']],
-            'tenure': [int(request.form['tenure'])],
-            'PhoneService': [request.form['PhoneService']],
-            'MultipleLines': [request.form['MultipleLines']],
-            'InternetService': [request.form['InternetService']],
-            'OnlineSecurity': [request.form['OnlineSecurity']],
-            'OnlineBackup': [request.form['OnlineBackup']],
-            'DeviceProtection': [request.form['DeviceProtection']],
-            'TechSupport': [request.form['TechSupport']],
-            'StreamingTV': [request.form['StreamingTV']],
-            'StreamingMovies': [request.form['StreamingMovies']],
-            'Contract': [request.form['Contract']],
-            'PaperlessBilling': [request.form['PaperlessBilling']],
-            'PaymentMethod': [request.form['PaymentMethod']],
-            'MonthlyCharges': [float(request.form['MonthlyCharges'])],
-            'TotalCharges': [float(request.form['TotalCharges'])]
+            'SeniorCitizen': [int(request.form['seniorCitizen'])],
+            'Partner': [request.form['partner']],
+            'Dependents': [request.form['dependents']],
+            'tenure': [float(request.form['tenure'])],
+            'PhoneService': [request.form['phoneService']],
+            'MultipleLines': [request.form['multipleLines']],
+            'InternetService': [request.form['internetService']],
+            'OnlineSecurity': [request.form['onlineSecurity']],
+            'OnlineBackup': [request.form['onlineBackup']],
+            'DeviceProtection': [request.form['deviceProtection']],
+            'TechSupport': [request.form['techSupport']],
+            'StreamingTV': [request.form['streamingTV']],
+            'StreamingMovies': [request.form['streamingMovies']],
+            'Contract': [request.form['contract']],
+            'PaperlessBilling': [request.form['paperlessBilling']],
+            'PaymentMethod': [request.form['paymentMethod']],
+            'MonthlyCharges': [float(request.form['monthlyCharges'])],
+            'TotalCharges': [float(request.form['totalCharges'])]
         }
-
-        # Convert input data to a DataFrame
-        input_df = pd.DataFrame(input_data)
-
-        # Make prediction using the pipeline
-        prediction = pipeline.predict(input_df)
-
-        # Return the prediction result
-        return render_template('results.html', prediction=prediction)
-
+        
+        # Create DataFrame
+        df = pd.DataFrame(data)
+        
+        # Initialize pipeline and make prediction
+        pipeline = ChurnPredictionPipeline()
+        result = pipeline.predict(df)
+        
+        return render_template('results.html', 
+                             prediction=result['churn_status'],
+                             probability=round(result['churn_probability'] * 100, 2))
+    
     except Exception as e:
-        return jsonify({'error': str(e)})
+        return render_template('results.html', error=str(e))
 
 if __name__ == '__main__':
     app.run(debug=True)

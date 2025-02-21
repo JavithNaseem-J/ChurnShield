@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 
-class PredictionPipeline:
+class ChurnPredictionPipeline:
     def __init__(self):
         """
         Initialize the PredictionPipeline by loading the preprocessor, label encoders, and the trained model.

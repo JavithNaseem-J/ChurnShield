@@ -1,5 +1,5 @@
 import pandas as pd
-from mlproject.pipeline.pipelineprediction import PredictionPipeline
+from mlproject.pipeline.pipelineprediction import ChurnPredictionPipeline
 
 def test_prediction():
     # Create sample input data
@@ -26,7 +26,7 @@ def test_prediction():
     })
     
     # Create an instance of the prediction pipeline
-    pipeline = PredictionPipeline()
+    pipeline = ChurnPredictionPipeline()
     
     # Make a prediction
     try:
