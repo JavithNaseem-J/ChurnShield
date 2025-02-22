@@ -1,9 +1,9 @@
 from mlproject import logger
-from mlproject.pipeline.stage1_data_ingestion import DataIngestionTrainingPipeline
-from mlproject.pipeline.stage2_data_validation import DataValidationTrainingPipeline
-from mlproject.pipeline.stage3_data_transformation import DataTransformationTrainingPipeline
-from mlproject.pipeline.stage4_modeltraining import ModelTrainerTrainingPipeline
-from mlproject.pipeline.stage5_data_evalution import ModelEvaluationTrainingPipeline
+from src.mlproject.pipeline.stage1_data_ingestion import DataIngestionTrainingPipeline
+from src.mlproject.pipeline.stage2_data_validation import DataValidationTrainingPipeline
+from src.mlproject.pipeline.stage3_data_transformation import DataTransformationTrainingPipeline
+from src.mlproject.pipeline.stage4_modeltraining import ModelTrainerTrainingPipeline
+from src.mlproject.pipeline.stage5_data_evalution import ModelEvaluationTrainingPipeline
 
 
 STAGE_NAME = "Data Ingestion stage"

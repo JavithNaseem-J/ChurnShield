@@ -1,6 +1,6 @@
-from mlproject.constants import *
-from mlproject.utils.common import read_yaml, create_directories
-from mlproject.entities.config_entity import (DataIngestionConfig,
+from src.mlproject.constants import *
+from src.mlproject.utils.common import read_yaml, create_directories
+from src.mlproject.entities.config_entity import (DataIngestionConfig,
                                             DataValidationConfig,
                                             DataTransformationConfig,
                                             ModelTrainerConfig,

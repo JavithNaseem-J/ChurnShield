@@ -7,8 +7,8 @@ import mlflow
 import mlflow.sklearn
 import dagshub
 import joblib
-from mlproject.entities.config_entity import ModelEvaluationConfig
-from mlproject.utils.common import save_json
+from src.mlproject.entities.config_entity import ModelEvaluationConfig
+from src.mlproject.utils.common import save_json
 from pathlib import Path
 from mlproject import logger
 import json

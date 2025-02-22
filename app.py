@@ -7,7 +7,7 @@ from pathlib import Path
 src_path = Path(__file__).parent / "src"
 sys.path.append(str(src_path))
 
-from mlproject.pipeline.pipelineprediction import ChurnPredictionPipeline
+from src.mlproject.pipeline.pipelineprediction import ChurnPredictionPipeline
 import pandas as pd
 
 app = Flask(__name__)

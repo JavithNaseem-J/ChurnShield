@@ -1,5 +1,5 @@
 import os
-from src.mlproject import logger
+from mlproject import logger
 from sklearn.model_selection import train_test_split,GridSearchCV,StratifiedKFold
 from sklearn.preprocessing import LabelEncoder,StandardScaler,OneHotEncoder
 from imblearn.over_sampling import SMOTE
@@ -8,7 +8,7 @@ from sklearn.pipeline import Pipeline
 import joblib
 import numpy as np
 import pandas as pd
-from mlproject.entities.config_entity import DataTransformationConfig
+from src.mlproject.entities.config_entity import DataTransformationConfig
 
 
 class DataTransformation:

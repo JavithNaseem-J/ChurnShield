@@ -4,7 +4,7 @@ from mlproject import logger
 import joblib
 from lightgbm import LGBMClassifier
 import numpy as np
-from mlproject.entities.config_entity import ModelTrainerConfig
+from src.mlproject.entities.config_entity import ModelTrainerConfig
 
 
 
