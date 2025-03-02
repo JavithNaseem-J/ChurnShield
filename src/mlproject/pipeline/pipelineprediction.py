@@ -14,7 +14,6 @@ class ChurnPredictionPipeline:
         self.model_path = Path('artifacts/model_trainer/model.joblib')
         self.label_encoders_path = Path('artifacts/data_transformation/label_encoders.pkl')
         
-        # Define column types
         self.num_cols = ['tenure', 'MonthlyCharges', 'TotalCharges']
         self.cat_cols = [
             'gender', 'SeniorCitizen', 'Partner', 'Dependents',
@@ -35,7 +34,7 @@ class ChurnPredictionPipeline:
         self.preprocessor = joblib.load(self.preprocessor_path)
         self.model = joblib.load(self.model_path)
         self.label_encoders = joblib.load(self.label_encoders_path)
-        self.target_column = 'Churn'  # Assuming this is your target column
+        self.target_column = 'Churn' 
 
     def preprocess_input(self, input_data):
         """
@@ -84,13 +83,7 @@ class ChurnPredictionPipeline:
             raise
 
     def predict(self, input_data):
-        """
-        Preprocess input data and make predictions.
-        Args:
-            input_data (DataFrame): A single-row DataFrame containing feature values.
-        Returns:
-            dict: Dictionary containing prediction result and probability.
-        """
+        
         try:
             # Preprocess the input data
             processed_data = self.preprocess_input(input_data)
