@@ -16,25 +16,23 @@ class DataTransformation:
         self.config = config
         self.label_encoders = {}
         
-        # Define column types
-        self.num_cols = ['tenure', 'MonthlyCharges', 'TotalCharges']
-        self.cat_cols_le = [
-            'gender', 'SeniorCitizen', 'Partner', 'Dependents',
-            'PhoneService', 'PaperlessBilling', 'InternetService',
-            'Contract', 'PaymentMethod', 'MultipleLines',
-            'OnlineSecurity', 'OnlineBackup', 'DeviceProtection',
-            'TechSupport', 'StreamingTV', 'StreamingMovies'
-        ]
-        self.cols_to_drop = ['customerID']
+        # Convert column dictionaries to lists of column names
+        self.num_cols = list(config.num_cols.keys()) if isinstance(config.num_cols, dict) else config.num_cols
+        self.cat_cols_le = list(config.cat_cols.keys()) if isinstance(config.cat_cols, dict) else config.cat_cols
+        self.cols_to_drop = list(config.columns_to_drop.keys()) if isinstance(config.columns_to_drop, dict) else config.columns_to_drop
 
     def preprocess_data(self, data: pd.DataFrame) -> pd.DataFrame:
         try:
             data = data.copy()
             data = data.drop(columns=self.cols_to_drop, errors='ignore')
             
-            # Handle TotalCharges column
-            data['TotalCharges'] = pd.to_numeric(data['TotalCharges'].str.strip(), errors='coerce')
-            data[self.num_cols] = data[self.num_cols].fillna(data[self.num_cols].mean())
+            # Handle numeric columns - convert and clean
+            for col in self.num_cols:
+                if col in data.columns:
+                    # Replace empty strings, spaces, or other non-numeric values with NaN
+                    data[col] = pd.to_numeric(data[col], errors='coerce')
+                    # Fill NaN values with appropriate values (median or mean)
+                    data[col] = data[col].fillna(data[col].median())
             
             # Label encode categorical columns
             for column in self.cat_cols_le:
@@ -97,13 +95,21 @@ class DataTransformation:
 
     def preprocess_features(self, train: pd.DataFrame, test: pd.DataFrame) -> tuple:
         try:
+            # Log the columns we're working with
+            logger.info(f"Numeric columns for transformation: {self.num_cols}")
+            
+            # Verify numeric columns exist in the data
+            valid_num_cols = [col for col in self.num_cols if col in train.columns]
+            if not valid_num_cols:
+                raise ValueError(f"None of the specified numeric columns {self.num_cols} exist in the data")
+            
             numeric_transformer = Pipeline(steps=[
                 ('scaler', StandardScaler())
             ])
             
             preprocessor = ColumnTransformer(
                 transformers=[
-                    ('num', numeric_transformer, self.num_cols)
+                    ('num', numeric_transformer, valid_num_cols)
                 ],
                 remainder='passthrough'
             )

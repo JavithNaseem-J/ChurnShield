@@ -26,8 +26,11 @@ class DataTransformationConfig:
     data_path: Path
     target_column: str
     label_encoder: Path
-    feature_encoder: Path 
+    feature_encoder: Path  
     preprocessor_path: Path
+    columns_to_drop: list
+    num_cols: list
+    cat_cols: list
 
 
 
@@ -54,7 +57,7 @@ class ModelEvaluationConfig:
     model_path: Path
     metric_file_path: Path
     preprocessor_path: Path
-    test_raw_data: Path  # Using the correct field name that matches the config
+    test_raw_data: Path  
     target_column: str
     all_params: dict
 

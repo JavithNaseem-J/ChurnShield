@@ -53,8 +53,10 @@ class ConfigurationManager:
     
 
 
+
     def get_data_transformation_config(self) -> DataTransformationConfig:
         config = self.config.data_transformation
+        schema = self.schema
         create_directories([config.root_dir])
         data_transformation_config = DataTransformationConfig(
             root_dir=config.root_dir,
@@ -62,7 +64,10 @@ class ConfigurationManager:
             target_column=config.target_column,
             preprocessor_path=config.preprocessor_path,
             label_encoder=config.label_encoder,
-            feature_encoder=config.feature_encoder 
+            feature_encoder=config.feature_encoder,
+            columns_to_drop=schema.columns_to_drop,
+            num_cols=schema.num_cols,
+            cat_cols=schema.cat_cols
         )
         return data_transformation_config
     
@@ -105,7 +110,7 @@ class ConfigurationManager:
             model_path=config.model_path,
             metric_file_path=config.metric_file_path,
             preprocessor_path=config.preprocessor_path,
-            test_raw_data=config.test_raw_data,  # Using the correct attribute name from config
+            test_raw_data=config.test_raw_data,
             target_column=schema.name,
             all_params=params
         )

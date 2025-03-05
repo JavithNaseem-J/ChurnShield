@@ -24,3 +24,31 @@ COLUMNS:
 
 TARGET_COLUMN:
   name: Churn
+
+
+num_cols:
+  tenure: int
+  MonthlyCharges: float
+  TotalCharges: float
+
+cat_cols:
+  SeniorCitizen: int
+  gender: string
+  Partner: string
+  Dependents: string
+  PhoneService: string
+  MultipleLines: string
+  InternetService: string
+  OnlineSecurity: string
+  OnlineBackup: string
+  DeviceProtection: string
+  TechSupport: string
+  StreamingTV: string
+  StreamingMovies: string
+  Contract: string
+  PaperlessBilling: string
+  PaymentMethod: string
+
+
+columns_to_drop:
+  customerID: string
