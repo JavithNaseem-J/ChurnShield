@@ -2,7 +2,7 @@ artifacts_root: artifacts
 
 data_ingestion:
   root_dir: artifacts/data_ingestion
-  source_URL: https://github.com/JavithNaseem-J/Bank-Loan-Report-PowerBi/raw/refs/heads/main/data.zip
+  source_URL: https://github.com/JavithNaseem-J/Tele-Com-Customer-Churn-Prediction/raw/refs/heads/main/artifacts/data_ingestion/data.zip
   local_data_file: artifacts/data_ingestion/data.zip
   unzip_dir: artifacts/data_ingestion
 
