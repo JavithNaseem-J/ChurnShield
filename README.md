@@ -5,21 +5,16 @@ Below is a detailed, step-by-step guide to set up your project, including clonin
 ## **Local Setup Steps**
 
 ### **1. Clone the Repository**
-- **Description**: Clone the GitHub repository to your local machine to access the project files.
-- **Command**:
   ```bash
   git clone https://github.com/entbappy/Tele-Com-Customer-Churn-Prediction.git
   ```
-- **Notes**:
-  - Ensure Git is installed on your system. If not, download it from [git-scm.com](https://git-scm.com/).
-  - After cloning, navigate into the project directory:
+
     ```bash
     cd Tele-Com-Customer-Churn-Prediction-
     ```
 
 ### **2. Create a Conda Environment**
-- **Description**: Set up a virtual environment using Conda to manage dependencies.
-- **Commands**:
+
   ```bash
   conda create -n mlproj python=3.10 -y
   conda activate mlproj
@@ -27,15 +22,13 @@ Below is a detailed, step-by-step guide to set up your project, including clonin
 
 
 ### **3. Install Requirements**
-- **Description**: Install the project’s dependencies listed in `requirements.txt`.
-- **Command**:
+
   ```bash
   pip install -r requirements.txt
   ```
 
 ### **4. Run the Application**
-- **Description**: Launch the web application locally to test it.
-- **Command**:
+
   ```bash
   python app.py
   ```
@@ -73,8 +66,7 @@ Below is a detailed, step-by-step guide to set up your project, including clonin
     - Allow inbound traffic on port 22 (SSH).
     - Allow the port your app uses (e.g., 5000).
   - Launch the instance and download the key pair (e.g., `my-key.pem`).
-- **Notes**:
-  - Store the key pair securely; it’s required to SSH into the instance.
+
 
 ### **5. Install Docker on EC2**
   ```bash
@@ -85,9 +77,7 @@ Below is a detailed, step-by-step guide to set up your project, including clonin
   sudo usermod -aG docker ubuntu
   newgrp docker
   ```
-- **Notes**:
-  - SSH into your EC2 instance first (e.g., `ssh -i my-key.pem ubuntu@<ec2-public-ip>`).
-  - These commands update the system and install Docker, adding the `ubuntu` user to the Docker group.
+
 
 ### **6. Configure EC2 as a Self-Hosted Runner**
   - Go to your GitHub repository > Settings > Actions > Runners > New self-hosted runner.
@@ -96,9 +86,7 @@ Below is a detailed, step-by-step guide to set up your project, including clonin
     - Download the runner software.
     - Configure it with a token.
     - Start the runner on your EC2 instance.
-- **Notes**:
-  - Run the commands one by one on your EC2 instance via SSH.
-  - This enables GitHub Actions to execute workflows on your EC2 machine.
+
 
 ### **7. Set Up GitHub Secrets**
   - Go to your GitHub repository > Settings > Secrets > New repository secret.
