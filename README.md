@@ -1,15 +1,58 @@
-# Tele Com Customer Churn Prediction
-Below is a detailed, step-by-step guide to set up your project, including cloning the repository, creating a local environment, and configuring AWS CI/CD deployment with GitHub Actions. This response is tailored to your query and ensures a complete, self-contained explanation.
+## Tele-Comm Churn Prediction
+📌 Project Overview
+
+This project, titled "Tele-Comm Churn Prediction," aims to predict whether a telecommunications customer will churn or not churn  based on various customer attributes and service details. The project leverages machine learning techniques to analyze customer data and provide actionable insights for reducing churn rates. The dataset includes features such as customer demographics, service subscriptions, contract details, and billing information, with the target variable being a binary indicator of churn ("Yes" or "No"). It follows an end-to-end machine learning pipeline, including data ingestion, validation, transformation, model training, evaluation, and deployment with a front-end interface for user interaction.
+
+## 📂 Dataset
+
+The dataset used in this project, Tele_Comm.csv, contains the following key features:
+
+Customer Demographics: Gender, SeniorCitizen, Partner, Dependents
+Service Information: tenure (in months), PhoneService, MultipleLines, InternetService, OnlineSecurity, OnlineBackup, DeviceProtection, TechSupport, StreamingTV, StreamingMovies
+Contract Details: Contract (Month-to-month, One year, Two year), PaperlessBilling, PaymentMethod
+Billing Information: MonthlyCharges, TotalCharges
+Target Variable: Churn (Yes/No)
+The original dataset consists of 7043 rows and 20 columns, as indicated in the project logs. To address class imbalance, it was resampled to 10,348 rows during the data transformation stage.
+
+
+### 🏗️ Project Workflow
+
+#### Data Ingestion:
+The dataset (Tele_Comm.csv) is ingested and stored in the artifacts/data_ingestion directory.
+Logs confirm the file size as approximately 147 KB.
+#### Data Validation:
+Validates the dataset schema and structure using schema.yaml to ensure data integrity.
+Results are stored in artifacts/data_validation/status.txt.
+#### Data Transformation:
+Resampled the dataset to address class imbalance (original shape: 7043 rows, resampled shape: 10,348 rows).
+Split into training (7761 rows) and test (2587 rows) sets.
+Preprocessed numerical features (tenure, MonthlyCharges, TotalCharges) with scaling and categorical features with label encoding.
+Saved preprocessor and label encoders in artifacts/data_transformation as preprocessor.pkl and label_encoders.pkl.
+#### Model Training:
+Trained a RandomForestClassifier on the preprocessed training data.
+Saved the trained model as model.joblib.
+#### Model Evaluation:
+Evaluated the model on the test set, achieving the following metrics:
+Accuracy: 85%
+Precision: 84.74%
+Recall: 85%
+F1-Score: 85%
+Front-End Development:
+Developed a web interface using Flask, with index.html for input collection and results.html for displaying predictions.
+The interface allows users to input customer details and predict churn probability.
+Deployment:
+Containerized the project using Docker.
+Implemented a CI/CD pipeline for automated deployment via GitHub Actions (cicd.yaml)
 
 
 ## **Local Setup Steps**
 
 ### **1. Clone the Repository**
-     ```bash
+```bash
      git clone https://github.com/entbappy/Tele-Com-Customer-Churn-Prediction.git
 
     cd Tele-Com-Customer-Churn-Prediction-
-    ```
+```
 
 ### **2. Create a Conda Environment**
 
