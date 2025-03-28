@@ -129,3 +129,6 @@ The dataset used in this project, `Tele_Comm.csv`, contains the following key fe
   - `AWS_ECR_LOGIN_URI`: The ECR login URI (e.g., `970547337635.dkr.ecr.ap-south-1.amazonaws.com`).
   - `ECR_REPOSITORY_NAME`: The name of your ECR repository (e.g., `mlproj`).
 
+
+
+This project is licensed under the MIT License. See the LICENSE file for details.
