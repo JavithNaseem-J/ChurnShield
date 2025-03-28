@@ -5,11 +5,9 @@ Below is a detailed, step-by-step guide to set up your project, including clonin
 ## **Local Setup Steps**
 
 ### **1. Clone the Repository**
-  ```bash
-  git clone https://github.com/entbappy/Tele-Com-Customer-Churn-Prediction.git
-  ```
+     ```bash
+     git clone https://github.com/entbappy/Tele-Com-Customer-Churn-Prediction.git
 
-    ```bash
     cd Tele-Com-Customer-Churn-Prediction-
     ```
 
