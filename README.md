@@ -4,7 +4,7 @@
 
 This project aims to predict whether a telecommunications customer will churn or not churn based on various customer attributes and service details. The project leverages machine learning techniques to analyze customer data and provide actionable insights for reducing churn rates. It follows an end-to-end machine learning pipeline, including data ingestion, validation, transformation, model training, evaluation, and deployment with a front-end interface for user interaction.
 
-
+![diagram](https://github.com/user-attachments/assets/024525c2-5c75-4c7b-bd6d-5879c929b74d)
 
 ### 📂 Dataset
 
