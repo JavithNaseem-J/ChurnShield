@@ -4,7 +4,117 @@
 
 This project aims to predict whether a telecommunications customer will churn or not churn based on various customer attributes and service details. The project leverages machine learning techniques to analyze customer data and provide actionable insights for reducing churn rates. It follows an end-to-end machine learning pipeline, including data ingestion, validation, transformation, model training, evaluation, and deployment with a front-end interface for user interaction.
 
-![diagram](https://github.com/user-attachments/assets/b869820f-369c-4c23-b2f9-093a1a7c6458)
+
+flowchart TD
+    subgraph "ML Pipeline"
+        subgraph "Data Ingestion Stage"
+            DI1["Data Ingestion (Data Folder)"]
+            DI2["Data Ingestion (Component)"]
+            DI3["Data Ingestion (Pipeline)"]
+        end
+        subgraph "Data Validation Stage"
+            DV1["Data Validation (Artifacts)"]
+            DV2["Data Validation (Schema)"]
+            DV3["Data Validation (Component)"]
+            DV4["Data Validation (Pipeline)"]
+        end
+        subgraph "Data Transformation Stage"
+            DT1["Data Transformation (Artifacts)"]
+            DT2["Data Transformation (Component)"]
+            DT3["Data Transformation (Pipeline)"]
+        end
+        subgraph "Model Training Stage"
+            MT1["Model Training (Artifacts)"]
+            MT2["Model Training (Component)"]
+            MT3["Model Training (Pipeline)"]
+        end
+        subgraph "Model Evaluation Stage"
+            ME1["Model Evaluation (Artifacts)"]
+            ME2["Model Evaluation (Component)"]
+            ME3["Model Evaluation (Pipeline)"]
+        end
+    end
+
+    DI3 -->|"stage"| DV1
+    DV4 -->|"stage"| DT1
+    DT3 -->|"stage"| MT1
+    MT3 -->|"stage"| ME1
+    MT1 -->|"trained_model"| WI1
+
+    subgraph "Configuration & Control"
+        Config1["Config Folder"]
+        Config2["Params File"]
+        Config3["Config Module"]
+        Config4["Constants & Entities"]
+    end
+
+    Config3 ---|"feeds"| DI1
+
+    subgraph "Web Interface"
+        WI1["Flask App"]
+        WI2["Templates"]
+    end
+
+    subgraph "Deployment & Automation"
+        DA1["Docker"]
+        DA2["CI/CD Workflow"]
+    end
+
+    WI1 -->|"containerized_in"| DA1
+    DA1 -->|"triggered_by"| DA2
+    DA2 -->|"deploys_to"| AWS["AWS (ECR & EC2)"]:::external
+
+    subgraph "Research & Experimentation"
+        RE1["Research Notebooks"]
+    end
+
+    %% Click Events
+    click DI1 "https://github.com/javithnaseem-j/tele-com-customer-churn-prediction/tree/main/artifacts/data_ingestion"
+    click DI2 "https://github.com/javithnaseem-j/tele-com-customer-churn-prediction/blob/main/src/mlproject/components/data_ingestion.py"
+    click DI3 "https://github.com/javithnaseem-j/tele-com-customer-churn-prediction/blob/main/src/mlproject/pipeline/stage1_data_ingestion.py"
+
+    click DV1 "https://github.com/javithnaseem-j/tele-com-customer-churn-prediction/tree/main/artifacts/data_validation"
+    click DV2 "https://github.com/javithnaseem-j/tele-com-customer-churn-prediction/blob/main/schema.yaml"
+    click DV3 "https://github.com/javithnaseem-j/tele-com-customer-churn-prediction/blob/main/src/mlproject/components/data_validation.py"
+    click DV4 "https://github.com/javithnaseem-j/tele-com-customer-churn-prediction/blob/main/src/mlproject/pipeline/stage2_data_validation.py"
+
+    click DT1 "https://github.com/javithnaseem-j/tele-com-customer-churn-prediction/tree/main/artifacts/data_transformation"
+    click DT2 "https://github.com/javithnaseem-j/tele-com-customer-churn-prediction/blob/main/src/mlproject/components/data_transformation.py"
+    click DT3 "https://github.com/javithnaseem-j/tele-com-customer-churn-prediction/blob/main/src/mlproject/pipeline/stage3_data_transformation.py"
+
+    click MT1 "https://github.com/javithnaseem-j/tele-com-customer-churn-prediction/tree/main/artifacts/model_trainer"
+    click MT2 "https://github.com/javithnaseem-j/tele-com-customer-churn-prediction/blob/main/src/mlproject/components/data_modeltraining.py"
+    click MT3 "https://github.com/javithnaseem-j/tele-com-customer-churn-prediction/blob/main/src/mlproject/pipeline/stage4_modeltraining.py"
+
+    click ME1 "https://github.com/javithnaseem-j/tele-com-customer-churn-prediction/tree/main/artifacts/model_evaluation"
+    click ME2 "https://github.com/javithnaseem-j/tele-com-customer-churn-prediction/blob/main/src/mlproject/components/data_modelevaluation.py"
+    click ME3 "https://github.com/javithnaseem-j/tele-com-customer-churn-prediction/blob/main/src/mlproject/pipeline/stage5_data_evalution.py"
+
+    click Config1 "https://github.com/javithnaseem-j/tele-com-customer-churn-prediction/tree/main/config"
+    click Config2 "https://github.com/javithnaseem-j/tele-com-customer-churn-prediction/blob/main/params.yaml"
+    click Config3 "https://github.com/javithnaseem-j/tele-com-customer-churn-prediction/tree/main/src/mlproject/config"
+    click Config4 "https://github.com/javithnaseem-j/tele-com-customer-churn-prediction/tree/main/src/mlproject/constants"
+
+    click WI1 "https://github.com/javithnaseem-j/tele-com-customer-churn-prediction/blob/main/app.py"
+    click WI2 "https://github.com/javithnaseem-j/tele-com-customer-churn-prediction/tree/main/templates"
+
+    click DA1 "https://github.com/javithnaseem-j/tele-com-customer-churn-prediction/tree/main/Dockerfile"
+    click DA2 "https://github.com/javithnaseem-j/tele-com-customer-churn-prediction/blob/main/.github/workflows/cicd.yaml"
+
+    click RE1 "https://github.com/javithnaseem-j/tele-com-customer-churn-prediction/tree/main/research"
+
+    %% Styles
+    classDef pipeline fill:#AED6F1,stroke:#1F618D,stroke-width:2px;
+    classDef config fill:#A9DFBF,stroke:#145A32,stroke-width:2px;
+    classDef web fill:#F9E79F,stroke:#B7950B,stroke-width:2px;
+    classDef deploy fill:#F5CBA7,stroke:#873600,stroke-width:2px;
+    classDef external fill:#FADBD8,stroke:#922B21,stroke-width:2px;
+
+    class DI1,DI2,DI3,DV1,DV2,DV3,DV4,DT1,DT2,DT3,MT1,MT2,MT3,ME1,ME2,ME3 pipeline;
+    class Config1,Config2,Config3,Config4 config;
+    class WI1,WI2 web;
+    class DA1,DA2 deploy;
+    class AWS,RE1 external;
 
 
 ### 📂 Dataset
