@@ -3,21 +3,21 @@ import joblib
 import pandas as pd
 import numpy as np
 from pathlib import Path
+from mlproject.utils.common import read_yaml
+from mlproject.constants import *
+
 
 class ChurnPredictionPipeline:
     def __init__(self):
+        self.schema = read_yaml(Path('schema.yaml'))
         self.preprocessor_path = Path('artifacts/data_transformation/preprocessor.pkl')
         self.model_path = Path('artifacts/model_trainer/model.joblib')
         self.label_encoders_path = Path('artifacts/data_transformation/label_encoders.pkl')
         
-        self.num_cols = ['tenure', 'MonthlyCharges', 'TotalCharges']
-        self.cat_cols = [
-            'gender', 'SeniorCitizen', 'Partner', 'Dependents',
-            'PhoneService', 'PaperlessBilling', 'InternetService',
-            'Contract', 'PaymentMethod', 'MultipleLines',
-            'OnlineSecurity', 'OnlineBackup', 'DeviceProtection',
-            'TechSupport', 'StreamingTV', 'StreamingMovies'
-        ]
+        self.num_cols = self.schema.num_cols
+        self.cat_cols = self.schema.cat_cols
+        self.target_column = self.schema.TARGET_COLUMN.name
+    
 
         if not os.path.exists(self.preprocessor_path):
             raise FileNotFoundError(f"Preprocessor file not found: {self.preprocessor_path}")
@@ -28,8 +28,7 @@ class ChurnPredictionPipeline:
 
         self.preprocessor = joblib.load(self.preprocessor_path)
         self.model = joblib.load(self.model_path)
-        self.label_encoders = joblib.load(self.label_encoders_path)
-        self.target_column = 'Churn' 
+        self.label_encoders = joblib.load(self.label_encoders_path) 
 
     def preprocess_input(self, input_data):
         
@@ -37,14 +36,6 @@ class ChurnPredictionPipeline:
             raise ValueError("Input data must be a pandas DataFrame.")
         
         data = input_data.copy()
-        
-        if 'TotalCharges' in data.columns:
-            data['TotalCharges'] = pd.to_numeric(data['TotalCharges'].astype(str).str.strip(), errors='coerce')
-            if data['TotalCharges'].isnull().any():
-                data['TotalCharges'] = data['TotalCharges'].fillna(0)
-        
-        if 'SeniorCitizen' in data.columns:
-            data['SeniorCitizen'] = data['SeniorCitizen'].astype(int)
         
         for column in self.cat_cols:
             if column in data.columns and column in self.label_encoders:
