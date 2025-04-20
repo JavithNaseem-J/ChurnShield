@@ -3,11 +3,13 @@ mlflow
 notebook
 numpy
 scikit-learn
-catboost
+lightgbm
 matplotlib
 seaborn
 python-box
 pyYAML
+mlflow
+dagshub
 tqdm
 ensure
 joblib

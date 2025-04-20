@@ -27,28 +27,27 @@ TARGET_COLUMN:
 
 
 num_cols:
-  tenure: int
-  MonthlyCharges: float
-  TotalCharges: float
+  - tenure
+  - MonthlyCharges
+  - TotalCharges
+  - SeniorCitizen
 
 cat_cols:
-  SeniorCitizen: int
-  gender: string
-  Partner: string
-  Dependents: string
-  PhoneService: string
-  MultipleLines: string
-  InternetService: string
-  OnlineSecurity: string
-  OnlineBackup: string
-  DeviceProtection: string
-  TechSupport: string
-  StreamingTV: string
-  StreamingMovies: string
-  Contract: string
-  PaperlessBilling: string
-  PaymentMethod: string
-
+  - gender
+  - Partner
+  - Dependents
+  - PhoneService
+  - MultipleLines
+  - InternetService
+  - OnlineSecurity
+  - OnlineBackup
+  - DeviceProtection
+  - TechSupport
+  - StreamingTV
+  - StreamingMovies
+  - Contract
+  - PaperlessBilling
+  - PaymentMethod
 
 columns_to_drop:
-  customerID: string
+  - customerID

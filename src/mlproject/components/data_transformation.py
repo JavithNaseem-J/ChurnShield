@@ -16,10 +16,9 @@ class DataTransformation:
         self.config = config
         self.label_encoders = {}
         
-        # Convert column dictionaries to lists of column names
-        self.num_cols = list(config.num_cols.keys()) if isinstance(config.num_cols, dict) else config.num_cols
-        self.cat_cols_le = list(config.cat_cols.keys()) if isinstance(config.cat_cols, dict) else config.cat_cols
-        self.cols_to_drop = list(config.columns_to_drop.keys()) if isinstance(config.columns_to_drop, dict) else config.columns_to_drop
+        self.num_cols = config.num_cols
+        self.cat_cols_le =  config.cat_cols
+        self.cols_to_drop = config.columns_to_drop
 
     def preprocess_data(self, data: pd.DataFrame) -> pd.DataFrame:
         try:
@@ -29,9 +28,7 @@ class DataTransformation:
             # Handle numeric columns - convert and clean
             for col in self.num_cols:
                 if col in data.columns:
-                    # Replace empty strings, spaces, or other non-numeric values with NaN
                     data[col] = pd.to_numeric(data[col], errors='coerce')
-                    # Fill NaN values with appropriate values (median or mean)
                     data[col] = data[col].fillna(data[col].median())
             
             # Label encode categorical columns
@@ -42,7 +39,7 @@ class DataTransformation:
                     self.label_encoders[column] = le
             
             # Encode target column if categorical
-            if self.config.target_column in data.columns and data[self.config.target_column].dtype == 'object':
+            if self.config.target_column in data.columns:
                 le = LabelEncoder()
                 data[self.config.target_column] = le.fit_transform(data[self.config.target_column])
                 self.label_encoders[self.config.target_column] = le
@@ -93,7 +90,7 @@ class DataTransformation:
             logger.error(f"Error in train_test_spliting: {str(e)}")
             raise e
 
-    def preprocess_features(self, train: pd.DataFrame, test: pd.DataFrame) -> tuple:
+    def preprocess_features(self, train, test) -> tuple:
         try:
             # Log the columns we're working with
             logger.info(f"Numeric columns for transformation: {self.num_cols}")
