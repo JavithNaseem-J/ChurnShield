@@ -58,24 +58,9 @@ class ChurnPredictionPipeline:
         try:
             processed_data = self.preprocess_input(input_data)
             
-            is_lgbm = 'LGBMClassifier' in str(type(self.model))
             
-            if is_lgbm:
-                feature_names = self.model.feature_name_
-                
-                processed_df = pd.DataFrame(processed_data, columns=[f'Column_{i}' for i in range(processed_data.shape[1])])
-                
-                if processed_df.shape[1] != len(feature_names):
-                    processed_df.columns = feature_names[:processed_df.shape[1]]
-                    print(f"Warning: Feature count mismatch. Using first {processed_df.shape[1]} features.")
-                else:
-                    processed_df.columns = feature_names
-                
-                prediction_result = int(self.model.predict(processed_df)[0])
-                probabilities = self.model.predict_proba(processed_df)[0]
-            else:
-                prediction_result = int(self.model.predict(processed_data)[0])
-                probabilities = self.model.predict_proba(processed_data)[0]
+            prediction_result = int(self.model.predict(processed_data)[0])
+            probabilities = self.model.predict_proba(processed_data)[0]
             
             # Get the class probabilities
             positive_class_index = 1 if len(probabilities) > 1 else 0
