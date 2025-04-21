@@ -39,7 +39,6 @@ class ChurnPredictionPipeline:
         
         for column in self.cat_cols:
             if column in data.columns and column in self.label_encoders:
-                if column != 'SeniorCitizen':
                     data[column] = self.label_encoders[column].transform(data[column].astype(str))
         
         for column in self.num_cols:
