@@ -1,6 +1,6 @@
 # 📱 Telecom Customer Churn Prediction
 
-![image](https://github.com/user-attachments/assets/5930cbaf-40a1-4ec5-af07-b3abb9fc318a)
+![image](https://github.com/user-attachments/assets/0cdf06c4-4da3-4d54-a067-7962a1b9ca97)
 
 ---
 
@@ -22,22 +22,6 @@ It follows a modular, production-grade **MLOps architecture** and includes:
 Data Ingestion → Data Validation → Data Transformation → Model Training → Evaluation → Prediction API
                             └──> Dockerized & Deployed via GitHub Actions + AWS
 ```
-
----
-
-## 🚀 Tech Stack
-
-| Component        | Tools Used                             |
-|------------------|-----------------------------------------|
-| Programming Lang | Python 3.10                             |
-| ML Models        | Scikit-learn (Logistic, Tree-based)     |
-| Packaging        | Joblib, Pickle                          |
-| Experimentation  | Manual metric tracking (JSON)          |
-| Serving          | FastAPI                                 |
-| UI               | Jinja2 + HTML Templates                 |
-| DevOps           | Docker, GitHub Actions, AWS ECR         |
-
----
 
 ## 📂 Folder Structure
 
@@ -96,9 +80,9 @@ python main.py --stage model_evaluation
 ### Launch API
 ```bash
 uvicorn app:app --reload
-```
-Visit [http://localhost:8000](http://localhost:8000)
 
+http://localhost:8000](http://localhost:8000)
+```
 ---
 
 ## 🐳 Docker Support
