@@ -1,6 +1,6 @@
 # 📱 Telecom Customer Churn Prediction
 
-![image](https://github.com/user-attachments/assets/0cdf06c4-4da3-4d54-a067-7962a1b9ca97)
+![image](https://github.com/user-attachments/assets/5900d80d-e9c8-4d37-9e8f-668c336f7f85)
 
 ---
 
