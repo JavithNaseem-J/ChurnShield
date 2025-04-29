@@ -1,136 +1,146 @@
-## Tele-Comm Churn Prediction
+# 📱 Telecom Customer Churn Prediction
 
-### 📌 Project Overview
-
-This project aims to predict whether a telecommunications customer will churn or not churn based on various customer attributes and service details. The project leverages machine learning techniques to analyze customer data and provide actionable insights for reducing churn rates. It follows an end-to-end machine learning pipeline, including data ingestion, validation, transformation, model training, evaluation, and deployment with a front-end interface for user interaction.
-
-![diagram](https://github.com/user-attachments/assets/024525c2-5c75-4c7b-bd6d-5879c929b74d)
-
-### 📂 Dataset
-
-The dataset used in this project, `Tele_Comm.csv`, contains the following key features:
-
-- **Customer Demographics:** Gender, SeniorCitizen, Partner, Dependents
-- **Service Information:** tenure (in months), PhoneService, MultipleLines, InternetService, OnlineSecurity, OnlineBackup, DeviceProtection, TechSupport, StreamingTV, StreamingMovies
-- **Contract Details:** Contract (Month-to-month, One year, Two year), PaperlessBilling, PaymentMethod
-- **Billing Information:** MonthlyCharges, TotalCharges
-- **Target Variable:** Churn (Yes/No)
-
-### 🏷️ Project Workflow
-
-#### **Data Ingestion:**
-- The dataset (`Tele_Comm.csv`) is ingested and stored.
-
-#### **Data Validation:**
-- Validates the dataset schema and structure using `schema.yaml` to ensure data integrity.
-
-#### **Data Transformation:**
-- Preprocessed numerical features (tenure, MonthlyCharges, TotalCharges) with scaling and categorical features with label encoding.
-
-#### **Model Training:**
-- Trained a `RandomForestClassifier` on the preprocessed training data.
-- Saved the trained model as `model.joblib`.
-
-#### **Model Evaluation:**
-- Evaluated the model on the test set, achieving the following metrics:
-  - **Accuracy:** 85%
-  - **Precision:** 84.74%
-  - **Recall:** 85%
-  - **F1-Score:** 85%
-
-### **Front-End Development:**
-- Developed a web interface using **Flask**, with `index.html` for input collection and `results.html` for displaying predictions.
-- The interface allows users to input customer details and predict churn probability.
-
-### **Deployment:**
-- Containerized the project using **Docker**.
-- Implemented a CI/CD pipeline for automated deployment via **GitHub Actions** (`cicd.yaml`).
+![Tele Comm Png](https://github.com/user-attachments/assets/3593a5ae-87fe-4b4d-894f-b861e37dc85c)
 
 ---
 
-## **Local Setup Steps**
+## 📂 Project Overview
 
-### **1. Clone the Repository**
-```bash
- git clone https://github.com/entbappy/Tele-Com-Customer-Churn-Prediction.git
- cd Tele-Com-Customer-Churn-Prediction-
+This project predicts whether a telecom customer is likely to **churn** (leave the service) based on their activity and demographic data.
+
+It follows a modular, production-grade **MLOps architecture** and includes:
+- Full pipeline orchestration
+- Experiment tracking with metrics
+- Model versioning
+- Containerization & CI/CD deployment
+
+---
+
+## 🏧 Architecture Summary
+
 ```
-
-### **2. Create a Conda Environment**
-```bash
- conda create -n mlproj python=3.10 -y
- conda activate mlproj
-```
-
-### **3. Install Requirements**
-```bash
- pip install -r requirements.txt
-```
-
-### **4. Run the Application**
-```bash
- python app.py
+Data Ingestion → Data Validation → Data Transformation → Model Training → Evaluation → Prediction API
+                            └──> Dockerized & Deployed via GitHub Actions + AWS
 ```
 
 ---
 
-## **AWS CI/CD Deployment with GitHub Actions**
+## 🚀 Tech Stack
 
-### **1. Log in to AWS Console**
-- Go to [AWS Console](https://aws.amazon.com/) and sign in.
-- If you don’t have an account, create one and set up billing.
+| Component        | Tools Used                             |
+|------------------|-----------------------------------------|
+| Programming Lang | Python 3.10                             |
+| ML Models        | Scikit-learn (Logistic, Tree-based)     |
+| Packaging        | Joblib, Pickle                          |
+| Experimentation  | Manual metric tracking (JSON)          |
+| Serving          | FastAPI                                 |
+| UI               | Jinja2 + HTML Templates                 |
+| DevOps           | Docker, GitHub Actions, AWS ECR         |
 
-### **2. Create an IAM User for Deployment**
-- Navigate to **IAM > Users > Add user** in the AWS Console.
-- Set a username (e.g., `deployment-user`).
-- Select **Programmatic access** as the access type.
-- Attach the following policies:
-  - `AmazonEC2ContainerRegistryFullAccess`: Grants full access to ECR.
-  - `AmazonEC2FullAccess`: Grants full access to EC2.
-- Review and create the user.
-- Save the **Access Key ID** and **Secret Access Key** securely.
+---
 
-### **3. Create an ECR Repository**
-- Go to **ECR > Repositories > Create repository** in the AWS Console.
-- Select **Private** and name it (e.g., `mlproj`).
-- Note the repository URI (e.g., `970547337635.dkr.ecr.ap-south-1.amazonaws.com/mlproj`).
+## 📂 Folder Structure
 
-### **4. Create an EC2 Instance**
-- Go to **EC2 > Instances > Launch Instance** in the AWS Console.
-- Choose an Ubuntu AMI (e.g., Ubuntu Server 20.04).
-- Select an instance type (e.g., `t2.micro` for free tier eligibility).
-- Configure a security group:
-  - Allow inbound traffic on port 22 (SSH).
-  - Allow the port your app uses (e.g., 5000).
-- Launch the instance and download the key pair (e.g., `my-key.pem`).
-
-### **5. Install Docker on EC2**
-```bash
- sudo apt-get update -y
- sudo apt-get upgrade -y
- curl -fsSL https://get.docker.com -o get-docker.sh
- sudo sh get-docker.sh
- sudo usermod -aG docker ubuntu
- newgrp docker
+```
+.
+├── .github/workflows/         # CI/CD YAML
+├── config/                    # YAML configuration files
+├── research/                  # Jupyter notebooks (EDA, experiments)
+├── src/mlproject/            # Modular pipeline code
+│   ├── components/            # Pipeline building blocks
+│   ├── pipeline/              # Stages (ingest, train, eval)
+│   ├── config/                # Configuration loader
+│   ├── entities/              # Config dataclasses
+│   ├── utils/                 # Utility functions
+├── artifacts/                # Outputs: models, metrics, transformed data
+├── schema.yaml               # Feature schema for validation
+├── params.yaml               # Model parameters
+├── Dockerfile                # Container build
+├── app.py                    # FastAPI inference server
+├── templates/                # HTML UI
+├── README.md                 # Project documentation
 ```
 
-### **6. Configure EC2 as a Self-Hosted Runner**
-- Go to your GitHub repository > **Settings** > **Actions** > **Runners** > **New self-hosted runner**.
-- Select the OS (**Linux**) and architecture (**X64**).
-- Follow the provided instructions to:
-  - Download the runner software.
-  - Configure it with a token.
-  - Start the runner on your EC2 instance.
+---
 
-### **7. Set Up GitHub Secrets**
-- Go to your GitHub repository > **Settings** > **Secrets** > **New repository secret**.
-- Add the following secrets:
-  - `AWS_ACCESS_KEY_ID`: Your IAM user’s access key.
-  - `AWS_SECRET_ACCESS_KEY`: Your IAM user’s secret key.
-  - `AWS_REGION`: The region of your ECR (e.g., `ap-south-1`).
-  - `AWS_ECR_LOGIN_URI`: The ECR login URI (e.g., `970547337635.dkr.ecr.ap-south-1.amazonaws.com`).
-  - `ECR_REPOSITORY_NAME`: The name of your ECR repository (e.g., `mlproj`).
+## 💡 Key Features
 
+- ✅ Modular pipeline (ingest, validate, transform, train, evaluate)
+- ✅ Clean training/testing separation
+- ✅ Metric logging to `metrics.json`
+- ✅ Reusable label encoders + preprocessors
+- ✅ Real-time prediction with FastAPI UI
+- ✅ Fully containerized with Docker
+- ✅ Automated CI/CD to AWS ECR using GitHub Actions
 
+---
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+## 💠 Setup Instructions
+
+### Clone & Install
+```bash
+git clone https://github.com/your-username/telecom-churn-prediction.git
+cd telecom-churn-prediction
+pip install -r requirements.txt
+```
+
+### Run Main Pipelines
+```bash
+python main.py --stage data_ingestion
+python main.py --stage data_validation
+python main.py --stage data_transformation
+python main.py --stage model_training
+python main.py --stage model_evaluation
+```
+
+### Launch API
+```bash
+uvicorn app:app --reload
+```
+Visit [http://localhost:8000](http://localhost:8000)
+
+---
+
+## 🐳 Docker Support
+
+```bash
+docker build -t telecom-churn-app .
+docker run -p 8000:8000 telecom-churn-app
+```
+
+---
+
+## ⚙️ GitHub Actions CI/CD
+
+Your pipeline:
+- Runs on every push to `main`
+- Lints and tests code
+- Builds and pushes Docker image to AWS ECR
+- Pulls and runs on self-hosted EC2 Docker instance
+
+CI/CD file: `.github/workflows/cicd.yaml`
+
+---
+
+## 🧠 Model Insights
+
+- Evaluation metrics are saved in `artifacts/model_evaluation/metrics.json`
+- Supports **binary classification** with class labels: `Churn` or `No Churn`
+
+---
+
+## 📅 Future Improvements
+
+- Integrate MLflow or Weights & Biases for experiment tracking
+- Add Evidently AI for monitoring production drift
+- Add Prometheus & Grafana dashboards
+- Automate with DVC pipelines
+- Expand UI to show confidence scores
+
+---
+
+## 📄 License
+
+Distributed under the MIT License.
+
+---
