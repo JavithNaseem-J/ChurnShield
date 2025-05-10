@@ -1,4 +1,4 @@
-name: mlproject-workflow
+name: workflow
 on:
   push:
     branches:

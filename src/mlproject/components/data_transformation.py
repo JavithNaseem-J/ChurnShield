@@ -15,17 +15,15 @@ class DataTransformation:
     def __init__(self, config: DataTransformationConfig):
         self.config = config
         self.label_encoders = {}
-        
         self.num_cols = config.num_cols
         self.cat_cols_le =  config.cat_cols
         self.cols_to_drop = config.columns_to_drop
 
     def preprocess_data(self, data: pd.DataFrame) -> pd.DataFrame:
-        try:
+    
             data = data.copy()
             data = data.drop(columns=self.cols_to_drop, errors='ignore')
             
-            # Handle numeric columns - convert and clean
             for col in self.num_cols:
                 if col in data.columns:
                     data[col] = pd.to_numeric(data[col], errors='coerce')
@@ -50,19 +48,14 @@ class DataTransformation:
             
             return data
             
-        except Exception as e:
-            logger.error(f"Error in preprocess_data: {str(e)}")
-            raise e
 
     def train_test_spliting(self) -> tuple:
-        try:
             data = pd.read_csv(self.config.data_path)
             data = self.preprocess_data(data)
             
             X = data.drop(columns=[self.config.target_column])
             y = data[self.config.target_column]
             
-            # Apply SMOTE
             smote = SMOTE(random_state=42)
             X_resampled, y_resampled = smote.fit_resample(X, y)
             
@@ -70,10 +63,8 @@ class DataTransformation:
             resampled_data = X_resampled.copy()
             resampled_data[self.config.target_column] = y_resampled
             
-            # Train-test split
             train, test = train_test_split(resampled_data, test_size=0.25, random_state=42)
             
-            # Save splits
             train_path = os.path.join(self.config.root_dir, "train.csv")
             test_path = os.path.join(self.config.root_dir, "test.csv")
             train.to_csv(train_path, index=False)
@@ -86,63 +77,51 @@ class DataTransformation:
             
             return train, test
             
-        except Exception as e:
-            logger.error(f"Error in train_test_spliting: {str(e)}")
-            raise e
-
     def preprocess_features(self, train, test) -> tuple:
-        try:
-            # Log the columns we're working with
-            logger.info(f"Numeric columns for transformation: {self.num_cols}")
+
+        logger.info(f"Numeric columns for transformation: {self.num_cols}")
             
-            # Verify numeric columns exist in the data
-            valid_num_cols = [col for col in self.num_cols if col in train.columns]
-            if not valid_num_cols:
-                raise ValueError(f"None of the specified numeric columns {self.num_cols} exist in the data")
+        valid_num_cols = [col for col in self.num_cols if col in train.columns]
+
+        if not valid_num_cols:
+            raise ValueError(f"None of the specified numeric columns {self.num_cols} exist in the data")
             
-            numeric_transformer = Pipeline(steps=[
-                ('scaler', StandardScaler())
-            ])
+        numeric_transformer = Pipeline(steps=[
+            ('scaler', StandardScaler())
+        ])
             
-            preprocessor = ColumnTransformer(
+        preprocessor = ColumnTransformer(
                 transformers=[
                     ('num', numeric_transformer, valid_num_cols)
                 ],
                 remainder='passthrough'
-            )
+        )
 
-            # Split features and target
-            train_x = train.drop(columns=[self.config.target_column])
-            test_x = test.drop(columns=[self.config.target_column])
-            train_y = train[self.config.target_column]
-            test_y = test[self.config.target_column]
+        # Split features and target
+        train_x = train.drop(columns=[self.config.target_column])
+        test_x = test.drop(columns=[self.config.target_column])
+        train_y = train[self.config.target_column]
+        test_y = test[self.config.target_column]
 
-            # Apply preprocessing
-            train_processed = preprocessor.fit_transform(train_x)
-            test_processed = preprocessor.transform(test_x)
+        train_processed = preprocessor.fit_transform(train_x)
+        test_processed = preprocessor.transform(test_x)
 
-            # Reshape targets
-            train_y = train_y.values.reshape(-1, 1)
-            test_y = test_y.values.reshape(-1, 1)
+        # Reshape 
+        train_y = train_y.values.reshape(-1, 1)
+        test_y = test_y.values.reshape(-1, 1)
 
-            # Combine processed features with targets
-            train_combined = np.hstack((train_processed, train_y))
-            test_combined = np.hstack((test_processed, test_y))
+        train_combined = np.hstack((train_processed, train_y))
+        test_combined = np.hstack((test_processed, test_y))
 
-            # Save preprocessor and processed data
-            os.makedirs(os.path.dirname(self.config.preprocessor_path), exist_ok=True)
-            joblib.dump(preprocessor, self.config.preprocessor_path)
+        os.makedirs(os.path.dirname(self.config.preprocessor_path), exist_ok=True)
+        joblib.dump(preprocessor, self.config.preprocessor_path)
             
-            np.save(os.path.join(self.config.root_dir, "train_processed.npy"), train_combined)
-            np.save(os.path.join(self.config.root_dir, "test_processed.npy"), test_combined)
+        np.save(os.path.join(self.config.root_dir, "train_processed.npy"), train_combined)
+        np.save(os.path.join(self.config.root_dir, "test_processed.npy"), test_combined)
 
-            logger.info(f"Preprocessor saved at: {self.config.preprocessor_path}")
-            logger.info(f"Training data shape: {train_processed.shape}")
-            logger.info(f"Testing data shape: {test_processed.shape}")
+        logger.info(f"Preprocessor saved at: {self.config.preprocessor_path}")
+        logger.info(f"Training data shape: {train_processed.shape}")
+        logger.info(f"Testing data shape: {test_processed.shape}")
             
-            return train_processed, test_processed
+        return train_processed, test_processed
             
-        except Exception as e:
-            logger.error(f"Error in preprocess_features: {str(e)}")
-            raise e
-        

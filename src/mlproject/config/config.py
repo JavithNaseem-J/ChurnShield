@@ -1,10 +1,13 @@
 from src.mlproject.constants import *
 from src.mlproject.utils.common import read_yaml, create_directories
-from src.mlproject.entities.config_entity import (DataIngestionConfig,
-                                            DataValidationConfig,
-                                            DataTransformationConfig,
-                                            ModelTrainerConfig,
-                                            ModelEvaluationConfig)
+from src.mlproject.entities.config_entity import (DataIngestionConfig, 
+                                                DataValidationConfig, 
+                                                DataTransformationConfig,
+                                                ModelTrainerConfig,
+                                                ModelEvaluationConfig,
+                                                ModelMonitoringConfig)
+import os
+
 
 class ConfigurationManager:
     def __init__(
@@ -20,7 +23,6 @@ class ConfigurationManager:
         create_directories([self.config.artifacts_root])
 
 
-    
     def get_data_ingestion_config(self) -> DataIngestionConfig:
         config = self.config.data_ingestion
 
@@ -35,7 +37,6 @@ class ConfigurationManager:
 
         return data_ingestion_config
     
-
     def get_data_validation_config(self) -> DataValidationConfig:
         config = self.config.data_validation
         schema = self.schema.COLUMNS
@@ -51,9 +52,6 @@ class ConfigurationManager:
 
         return data_validation_config
     
-
-
-
     def get_data_transformation_config(self) -> DataTransformationConfig:
         config = self.config.data_transformation
         schema = self.schema
@@ -64,40 +62,35 @@ class ConfigurationManager:
             target_column=config.target_column,
             preprocessor_path=config.preprocessor_path,
             label_encoder=config.label_encoder,
-            feature_encoder=config.feature_encoder,
             columns_to_drop=schema.columns_to_drop,
             num_cols=schema.num_cols,
             cat_cols=schema.cat_cols
         )
         return data_transformation_config
-    
-
 
     def get_model_trainer_config(self) -> ModelTrainerConfig:
         config = self.config.model_trainer
         params = self.params.LGBMClassifier
-        schema =  self.schema.TARGET_COLUMN
 
         create_directories([config.root_dir])
 
         model_trainer_config = ModelTrainerConfig(
             root_dir=config.root_dir,
-            train_data_path = config.train_data_path,
-            test_data_path = config.test_data_path,
-            model_name = config.model_name,
-            subsample = params.subsample,
-            num_leaves = params.num_leaves,
-            n_estimators = params.n_estimators,
-            max_depth = params.max_depth,
-            learning_rate = params.learning_rate,
-            lambda_l2 = params.lambda_l2,
-            lambda_l1 = params.lambda_l1,
-            colsample_bytree = params.colsample_bytree
+            train_data_path=config.train_data_path,
+            test_data_path=config.test_data_path,
+            model_name=config.model_name,
+            n_estimators=params.n_estimators,
+            max_depth=params.max_depth,
+            subsample=params.subsample,
+            num_leaves=params.num_leaves,
+            learning_rate=params.learning_rate,
+            lambda_l2=params.lambda_l2,
+            lambda_l1=params.lambda_l1,
+            colsample_bytree=params.colsample_bytree
         )
 
         return model_trainer_config
     
-
     def get_model_evaluation_config(self) -> ModelEvaluationConfig:
         config = self.config.model_evaluation
         params = self.params.LGBMClassifier
@@ -107,11 +100,27 @@ class ConfigurationManager:
 
         model_evaluation_config = ModelEvaluationConfig(
             root_dir=config.root_dir,
+            test_raw_data=config.test_raw_data,
             model_path=config.model_path,
+            all_params=params,
             metric_file_path=config.metric_file_path,
             preprocessor_path=config.preprocessor_path,
-            test_raw_data=config.test_raw_data,
-            target_column=schema.name,
-            all_params=params
+            target_column=schema.name
         )
+
         return model_evaluation_config
+    
+    def get_model_monitoring_config(self) -> ModelMonitoringConfig:
+        config = self.config.model_monitoring
+        
+        create_directories([config.root_dir])
+        
+        model_monitoring_config = ModelMonitoringConfig(
+            root_dir=config.root_dir,
+            train_data_path=config.train_data_path,
+            test_data_path=config.test_data_path,
+            model_path=config.model_path,
+            preprocessor_path=config.preprocessor_path
+        )
+        
+        return model_monitoring_config
