@@ -24,10 +24,10 @@ class ModelEvaluation:
 
         dagshub.init(
             repo_owner="JavithNaseem-J",
-            repo_name="Telecom-Customer-Churn-Prediction"
+            repo_name="ChurnShield"
         )
         mlflow.set_tracking_uri(
-            "https://dagshub.com/JavithNaseem-J/Telecom-Customer-Churn-Prediction.mlflow"
+            "https://dagshub.com/JavithNaseem-J/ChurnShield.mlflow"
         )
         mlflow.set_experiment("Telecom-Customer-Churn-Prediction")
 
