@@ -21,8 +21,6 @@ class ModelEvaluation:
     def __init__(self, config: ModelEvaluationConfig):
         self.config = config
 
-        os.environ['MLFLOW_TRACKING_USERNAME'] = "JavithNaseem-J"
-        os.environ['MLFLOW_TRACKING_PASSWORD'] = "39af2ec9240d8439ca7a568d37e4c8566f0e4507"
 
         dagshub.init(
             repo_owner="JavithNaseem-J",
